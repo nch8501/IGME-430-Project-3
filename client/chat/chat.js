@@ -11,7 +11,15 @@ const handleChat = (e) =>{
   
 };
 
-
+const test = (e) =>{
+  
+  const chatId = e.target.getAttribute("id");
+  
+  
+  console.dir(chatId);
+  
+  
+};
 
 //creates the chat form to create a new chat
 const ChatForm = (props) =>{
@@ -47,9 +55,10 @@ const ChatList = function(props){
   }
   
   const chatNodes = props.chats.map(function(chat){
+    console.dir(chat._id);
     return(
       //change class later
-      <div key={chat._id} className="domo">
+      <div key={chat._id} id={chat._id} className="domo" onClick={test}>
         <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
         <h3 className="domoName">Title: {chat.title}</h3>
         <h3 className="domoAge">Description: {chat.description}</h3>

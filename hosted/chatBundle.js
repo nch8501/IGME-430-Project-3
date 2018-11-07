@@ -12,6 +12,13 @@ var handleChat = function handleChat(e) {
   return false;
 };
 
+var test = function test(e) {
+
+  var chatId = e.target.getAttribute("id");
+
+  console.dir(chatId);
+};
+
 //creates the chat form to create a new chat
 var ChatForm = function ChatForm(props) {
   return React.createElement(
@@ -58,11 +65,12 @@ var ChatList = function ChatList(props) {
   }
 
   var chatNodes = props.chats.map(function (chat) {
+    console.dir(chat._id);
     return (
       //change class later
       React.createElement(
         "div",
-        { key: chat._id, className: "domo" },
+        { key: chat._id, id: chat._id, className: "domo", onClick: test },
         React.createElement("img", { src: "/assets/img/domoface.jpeg", alt: "domo face", className: "domoFace" }),
         React.createElement(
           "h3",

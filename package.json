@@ -14,6 +14,8 @@
     "watchLoginBundle": "babel --watch ./client/login ./client/helper --presets react --out-file ./hosted/loginBundle.js",
     "watchAppBundle": "babel --watch ./client/app ./client/helper --presets react --out-file ./hosted/bundle.js",
     "watchChatBundle": "babel --watch ./client/chat ./client/helper --presets react --out-file ./hosted/chatBundle.js",
+    "watchChatScreenBundle": "babel --watch ./client/chatScreen ./client/helper --presets react --out-file ./hosted/chatScreenBundle.js",
+    
     "nodemon": "nodemon --watch ./server ./server/app.js",
     "start": "node ./server/app.js",
     "pretest": "eslint ./server --fix",
