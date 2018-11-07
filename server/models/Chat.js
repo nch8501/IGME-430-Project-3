@@ -64,10 +64,10 @@ ChatSchema.statics.toAPI = (doc) => ({
 
 ChatSchema.statics.findByCreatedBy = (creatorId, callback) => {
   const search = {
-    creator: convertId(creatorId),
+    createdBy: convertId(creatorId),
   };
 
-  return ChatModel.find(search).select('title description createdBy createdDate').exec(callback);
+  return ChatModel.find(search).select('title description').exec(callback);
 };
 
 ChatSchema.statics.deleteChat = (chatId, callback) => {
