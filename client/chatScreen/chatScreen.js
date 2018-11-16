@@ -1,23 +1,22 @@
 //handles the submission of a message
 const handleMessage = (e) =>{
-  console.dir("Handling Message");
   e.preventDefault();
   
+  console.dir($("#messageForm").serialize());
+  
+  //send ajax request
   sendAjax('POST', $("#messageForm").attr("action"), $("#messageForm").serialize(), function(){ 
+    console.dir('Message Made');
+    
     //loadMessagesFromServer();
+    //
+    //
   });
   
   return false; 
 };
 
-
-const ChatHeader = (props) =>{
-  return(
-  <div>{props.title}</div>
-  );
-};
-
-
+//creates the list of messages
 const MessageList = function(props){
   if(props.messages.length === 0){
     return(
@@ -45,28 +44,33 @@ const MessageList = function(props){
   );
 };
 
-
-const MessageForm = (props) =>{
+//creates message form
+const MessageForm = (props) =>{  
+  //get the id of the chat
+  const chatId = document.getElementById("chatId").innerHTML;
+  
   return(
   <form id="messageForm" name="messageForm"
         onSubmit={handleMessage}
         //change action later
-        action="/postMessage"
+        action="/addMessage"
         method='POST'
         //change class later
         className="domoForm"
     >
     <label htmlFor="message">Message: </label>
     <input id="message" type="text" name="message" placeholder="Message" />
-    <input id="csrfToken" type="hidden" name="_csrf" value={props.csrf} />
-    
+    <input id="csrfToken" type="hidden" name="_csrf" value={props.csrf} />   
+    <input id="chatIdForMessage" type="hidden" name="chatId" value={chatId} />
     <input className="maheDomoSubmit" type="submit" value="Post Message" />  
   </form>
   );
 };
 
-
+//loads the list of messages
 const loadMessagesFromServer = () =>{
+  //
+  //
   //need to also send the chat's ID
   sendAjax('GET', '/getMessages', null, (data) =>{
     ReactDOM.render(
@@ -76,13 +80,8 @@ const loadMessagesFromServer = () =>{
   });
 };
 
-
+//sets up the chat screen
 const setup = function(csrf){
-  //chat header
-  ReactDOM.render(
-    <ChatHeader />,
-    document.querySelector("#chatHeader"),
-  );
   
   //message section
   ReactDOM.render(
@@ -93,21 +92,22 @@ const setup = function(csrf){
   //message creator
   ReactDOM.render(
     <MessageForm csrf={csrf} />,
-    document.querySelector("#messageForm"),
+    document.querySelector("#message"),
   );
   
+  //
+  //
   //load messages
   //loadMessagesFromServer();
 };
 
+//gets the csrf token
 const getToken = () =>{
-  console.dir('Getting Token on Chat Screen');
   sendAjax('GET', '/getToken', null, (result) =>{
     setup(result.csrfToken);
   });
 };
 
 $(document).ready(function(){
-  console.dir('Chat Screen Ready');
   getToken();
 });

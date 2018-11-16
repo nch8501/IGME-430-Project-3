@@ -13,22 +13,25 @@
 </head>
   
 <body>
-  <div>HELLO</div>
+  
   <nav><a href="/login"><img id="logo" src="/assets/img/face.png" alt="face logo"/></a>
     <div class="navlink"><a href="/logout">Log out</a></div>
   </nav>
   <section id="chatHeader">
+    <div>{{chat.title}}</div>
   </section>
   
   <section id="messageSection">
   </section>
   
-  <section id="messageForm">
+  <section id="message">
   </section>
   
   <div id="domoMessage"><img id="speech" src="/assets/img/speech.png" alt="speech box"/>
     <h3><span id="errorMessage"></span></h3><img id="domo" src="assets/img/domo.png" alt="domo"/>
   </div>
+  
+  <section id="chatId" style="display: none">{{chat._id}}</section>
   
   <script src="/assets/chatScreenBundle.js"></script>
 </body>

@@ -2,24 +2,23 @@
 
 //handles the submission of a message
 var handleMessage = function handleMessage(e) {
-  console.dir("Handling Message");
   e.preventDefault();
 
+  console.dir($("#messageForm").serialize());
+
+  //send ajax request
   sendAjax('POST', $("#messageForm").attr("action"), $("#messageForm").serialize(), function () {
+    console.dir('Message Made');
+
     //loadMessagesFromServer();
+    //
+    //
   });
 
   return false;
 };
 
-var ChatHeader = function ChatHeader(props) {
-  return React.createElement(
-    "div",
-    null,
-    props.title
-  );
-};
-
+//creates the list of messages
 var MessageList = function MessageList(props) {
   if (props.messages.length === 0) {
     return React.createElement(
@@ -61,13 +60,17 @@ var MessageList = function MessageList(props) {
   );
 };
 
+//creates message form
 var MessageForm = function MessageForm(props) {
+  //get the id of the chat
+  var chatId = document.getElementById("chatId").innerHTML;
+
   return React.createElement(
     "form",
     { id: "messageForm", name: "messageForm",
       onSubmit: handleMessage
       //change action later
-      , action: "/postMessage",
+      , action: "/addMessage",
       method: "POST"
       //change class later
       , className: "domoForm"
@@ -79,40 +82,44 @@ var MessageForm = function MessageForm(props) {
     ),
     React.createElement("input", { id: "message", type: "text", name: "message", placeholder: "Message" }),
     React.createElement("input", { id: "csrfToken", type: "hidden", name: "_csrf", value: props.csrf }),
+    React.createElement("input", { id: "chatIdForMessage", type: "hidden", name: "chatId", value: chatId }),
     React.createElement("input", { className: "maheDomoSubmit", type: "submit", value: "Post Message" })
   );
 };
 
+//loads the list of messages
 var loadMessagesFromServer = function loadMessagesFromServer() {
+  //
+  //
   //need to also send the chat's ID
   sendAjax('GET', '/getMessages', null, function (data) {
     ReactDOM.render(React.createElement(MessageList, { messages: data.messages }), document.querySelector("#messageSection"));
   });
 };
 
+//sets up the chat screen
 var setup = function setup(csrf) {
-  //chat header
-  ReactDOM.render(React.createElement(ChatHeader, null), document.querySelector("#chatHeader"));
 
   //message section
   ReactDOM.render(React.createElement(MessageList, { messages: [] }), document.querySelector("#messageSection"));
 
   //message creator
-  ReactDOM.render(React.createElement(MessageForm, { csrf: csrf }), document.querySelector("#messageForm"));
+  ReactDOM.render(React.createElement(MessageForm, { csrf: csrf }), document.querySelector("#message"));
 
+  //
+  //
   //load messages
   //loadMessagesFromServer();
 };
 
+//gets the csrf token
 var getToken = function getToken() {
-  console.dir('Getting Token on Chat Screen');
   sendAjax('GET', '/getToken', null, function (result) {
     setup(result.csrfToken);
   });
 };
 
 $(document).ready(function () {
-  console.dir('Chat Screen Ready');
   getToken();
 });
 "use strict";

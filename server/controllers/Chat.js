@@ -5,6 +5,7 @@ const Chat = models.Chat;
 
 // renders the chat page
 const chatPage = (req, res) => {
+  //
   // change to get all chats
   //
   Chat.ChatModel.findByCreatedBy(req.session.account._id, (err, docs) => {
@@ -50,7 +51,9 @@ const makeChat = (req, res) => {
   const newChat = new Chat.ChatModel(chatData);
   const chatPromise = newChat.save();
 
+  //
   // redirect to newly made chat page
+  //
   chatPromise.then(() => res.json({ redirect: '/chat' }));
 
   // catch any errors
@@ -67,8 +70,10 @@ const makeChat = (req, res) => {
   return chatPromise;
 };
 
+//
+// get chats from server
+//
 const getChatByCreatedBy = (request, response) => {
-  console.dir('In GetChatByCreatedBy');
   const req = request;
   const res = response;
 

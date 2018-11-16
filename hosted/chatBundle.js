@@ -2,10 +2,13 @@
 
 //handles the submission of a new chat
 var handleChat = function handleChat(e) {
-  console.dir("Handling Chat");
   e.preventDefault();
 
+  //send the chat data to ajax
   sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function () {
+    //re-load the chat list
+    //
+    //need to send token
     loadChatsFromServer();
   });
 
@@ -16,9 +19,9 @@ var handleChat = function handleChat(e) {
 var goToChat = function goToChat(e) {
   e.preventDefault();
 
+  //get the chatId of the selected chat
   var children = e.target.childNodes;
   var chatId = children[1].value;
-  console.dir('In Going to Chat Method');
 
   //send ajax request
   sendAjax('GET', e.target.getAttribute('action'), $("#" + chatId).serialize(), redirect);
@@ -55,6 +58,7 @@ var ChatForm = function ChatForm(props) {
   );
 };
 
+//creates the list of chats
 var ChatList = function ChatList(props) {
   if (props.chats.length === 0) {
     return (
@@ -115,13 +119,14 @@ var ChatList = function ChatList(props) {
 
 //loads the chats from the server
 var loadChatsFromServer = function loadChatsFromServer(csrf) {
+  //send ajax request
   sendAjax('GET', '/getChats', null, function (data) {
     ReactDOM.render(React.createElement(ChatList, { csrf: csrf, chats: data.chats }), document.querySelector("#chats"));
   });
 };
 
+//sets up the chat page
 var setup = function setup(csrf) {
-  console.dir(csrf);
   //chat creator
   ReactDOM.render(React.createElement(ChatForm, { csrf: csrf }), document.querySelector("#makeChat"));
 
@@ -133,6 +138,7 @@ var setup = function setup(csrf) {
 };
 
 var getToken = function getToken() {
+  //send ajax request
   sendAjax('GET', '/getToken', null, function (result) {
     setup(result.csrfToken);
   });

@@ -21,8 +21,6 @@ const chatScreenPage = (req, res) => {
 
 // adds a message to the chat
 const addMessage = (req, res) => {
-  console.dir('Making Message');
-  
   // check for necessary inputs
   if (!req.body.message) {
     return res.status(400).json({ error: 'Message required' });
@@ -34,27 +32,14 @@ const addMessage = (req, res) => {
     createdBy: req.session.account._id,
   };
 
-  // example message data
-  const messageData = {
-    message: 'Hello Everyone',
-    createdBy: req.session.account._id,
-  };
-
-  const temp = Chat.ChatModel.findById('5bec7804575c0c1f6c6a2d5a', () => {
-
-
-  });
-
 
   // get specific chat id
-  //
-  /* Chat.ChatModel.addMessage('5bec7804575c0c1f6c6a2d5a', messageData, ()=>{
+  Chat.ChatModel.addMessage(req.body.chatId, messageData, () => {
     console.dir('Made message');
     //
-    //re-render chat screen
+    // re-render chat screen
+    return res.json({ x: 'x' });
   });
-  */
-  return false;
 };
 
 // gets the messages of the chat
