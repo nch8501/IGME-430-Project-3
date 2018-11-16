@@ -7,6 +7,7 @@ let ChatModel = {};
 const convertId = mongoose.Types.ObjectId;
 const setTitle = (title) => _.escape(title).trim();
 
+
 const messageSchema = new mongoose.Schema({
   message: {
     type: String,
@@ -40,7 +41,9 @@ const ChatSchema = new mongoose.Schema({
     trim: true,
   },
 
-  messages: [messageSchema],
+  messages: {
+    type: [messageSchema],
+  },
 
   createdBy: {
     type: mongoose.Schema.ObjectId,
@@ -62,6 +65,7 @@ ChatSchema.statics.toAPI = (doc) => ({
   createdDate: doc.createdDate,
 });
 
+// finds all chats created by a user
 ChatSchema.statics.findByCreatedBy = (creatorId, callback) => {
   const search = {
     createdBy: convertId(creatorId),
@@ -70,9 +74,34 @@ ChatSchema.statics.findByCreatedBy = (creatorId, callback) => {
   return ChatModel.find(search).select('title description').exec(callback);
 };
 
-ChatSchema.statics.deleteChat = (chatId, callback) => {
+// finds a specific chat
+ChatSchema.statics.findById = (chatId, callback) => {
+  const search = {
+    _id: chatId,
+  };
+
+  return ChatModel.findOne(search).select('title description createdBy').exec(callback);
+};
+
+// finds all chats on server
+ChatSchema.statics.findAll = (callback) =>
+  // return all chats
+  ChatModel.find().select('title description createdBy').exec(callback);
+
+// deletes a chat from the server
+ChatSchema.statics.deleteChat = (chatId, callback) =>
   // delete chat using its id
   ChatModel.deleteOne({ _id: convertId(chatId) }).exec(callback);
+
+// adds a message to a chat
+ChatSchema.statics.addMessage = (chatId, messageData, callback) => {
+  // create search query
+  const query = {
+    _id: convertId(chatId),
+  };
+
+  // add message to chat
+  return ChatModel.findOneAndUpdate(query, { $push: { messages: messageData } }).exec(callback);
 };
 
 

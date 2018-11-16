@@ -1,5 +1,6 @@
 "use strict";
 
+//handles the submission of a message
 var handleMessage = function handleMessage(e) {
   console.dir("Handling Message");
   e.preventDefault();
@@ -134,6 +135,7 @@ var sendAjax = function sendAjax(type, action, data, success) {
     success: success,
     error: function error(xhr, status, _error) {
       var messageObj = JSON.parse(xhr.responseText);
+      console.dir(messageObj);
       handleError(messageObj.error);
     }
   });

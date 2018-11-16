@@ -1,9 +1,14 @@
 "use strict";
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 //handles the submission of a new chat
 var handleChat = function handleChat(e) {
   console.dir("Handling Chat");
   e.preventDefault();
+
+  var temp = $("#chatForm").serialize();
+  console.dir(typeof temp === "undefined" ? "undefined" : _typeof(temp));
 
   sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function () {
     loadChatsFromServer();
@@ -12,11 +17,30 @@ var handleChat = function handleChat(e) {
   return false;
 };
 
+//shows the database id of the chat
 var test = function test(e) {
 
   var chatId = e.target.getAttribute("id");
 
+  /*
+  sendAjax('POST', '/addMessage', $("#chatForm").serialize(), function(){ 
+    console.dir('Added Message');
+  });
+    
+  
   console.dir(chatId);
+  */
+
+  var temp = {
+    chat: chatId
+  };
+
+  var tempJson = JSON.stringify(temp);
+  console.dir(tempJson);
+
+  sendAjax('GET', '/chatScreen', tempJson, function () {
+    console.dir('Added Message');
+  });
 };
 
 //creates the chat form to create a new chat
@@ -145,6 +169,7 @@ var sendAjax = function sendAjax(type, action, data, success) {
     success: success,
     error: function error(xhr, status, _error) {
       var messageObj = JSON.parse(xhr.responseText);
+      console.dir(messageObj);
       handleError(messageObj.error);
     }
   });

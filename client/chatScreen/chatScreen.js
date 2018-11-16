@@ -1,4 +1,4 @@
-
+//handles the submission of a message
 const handleMessage = (e) =>{
   console.dir("Handling Message");
   e.preventDefault();

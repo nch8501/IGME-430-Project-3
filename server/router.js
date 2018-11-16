@@ -16,6 +16,10 @@ const router = (app) => {
   app.get('/getChats', mid.requiresLogin, controllers.Chat.getChatByCreatedBy);
   app.post('/makeChat', mid.requiresLogin, controllers.Chat.makeChat);
 
+  app.get('/chatScreen', mid.requiresLogin, controllers.ChatScreen.chatScreenPage);
+
+  app.post('/addMessage', mid.requiresLogin, controllers.ChatScreen.addMessage);
+
 
   // app.post('/maker', mid.requiresLogin, controllers.Domo.make);
   // app.delete('/deleteDomo', mid.requiresLogin, controllers.Domo.delete);

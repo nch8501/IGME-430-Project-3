@@ -3,6 +3,9 @@ const handleChat = (e) =>{
   console.dir("Handling Chat");
   e.preventDefault();
   
+  const temp = $("#chatForm").serialize();
+  console.dir(typeof temp);
+  
   sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function(){ 
     loadChatsFromServer();
   });
@@ -11,12 +14,32 @@ const handleChat = (e) =>{
   
 };
 
+//shows the database id of the chat
 const test = (e) =>{
   
   const chatId = e.target.getAttribute("id");
   
+  /*
+  sendAjax('POST', '/addMessage', $("#chatForm").serialize(), function(){ 
+    console.dir('Added Message');
+  });
+
+  
   
   console.dir(chatId);
+  */
+  
+
+  let temp = {
+    chat: chatId,
+  };
+  
+  const tempJson = JSON.stringify(temp);
+  console.dir(tempJson);
+  
+  sendAjax('GET', '/chatScreen', tempJson, function(){ 
+    console.dir('Added Message');
+  });
   
   
 };

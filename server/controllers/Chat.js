@@ -2,7 +2,10 @@ const models = require('../models');
 
 const Chat = models.Chat;
 
+// renders the chat page
 const chatPage = (req, res) => {
+  // change to get all chats
+  //
   Chat.ChatModel.findByCreatedBy(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
@@ -13,7 +16,7 @@ const chatPage = (req, res) => {
   });
 };
 
-
+// creates a new chat
 const makeChat = (req, res) => {
   // check for all necessary inputs
   if (!req.body.title || !req.body.description) {
@@ -28,6 +31,7 @@ const makeChat = (req, res) => {
     createdBy: req.session.account._id,
   };
 
+  // save new chat to database
   const newChat = new Chat.ChatModel(chatData);
   const chatPromise = newChat.save();
 

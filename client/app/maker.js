@@ -28,6 +28,7 @@ const handleDeleteDomo = (e) =>{
   const domoId = children[1].value;
   
   sendAjax('DELETE', e.target.getAttribute('action'), $("#" + domoId).serialize(), function(){
+    
     loadDomosFromServer();
   });
 
