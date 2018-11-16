@@ -1,18 +1,15 @@
 const models = require('../models');
+const url = require('url');
 
 const Chat = models.Chat;
 
 // renders the chat screen page
 const chatScreenPage = (req, res) => {
-  console.dir('On Chat Screen');
-  console.dir(req.body);
-  //
-  //
-  //
+  // get the url parameters
+  const params = url.parse(req.url, true).query;
 
-  // change to proper id later
-  //
-  Chat.ChatModel.findById('5bec7804575c0c1f6c6a2d5a', (err, docs) => {
+  // get chat from server
+  Chat.ChatModel.findById(params.chatId, (err, docs) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred' });
@@ -25,7 +22,7 @@ const chatScreenPage = (req, res) => {
 // adds a message to the chat
 const addMessage = (req, res) => {
   console.dir('Making Message');
-/*
+  
   // check for necessary inputs
   if (!req.body.message) {
     return res.status(400).json({ error: 'Message required' });
@@ -36,7 +33,6 @@ const addMessage = (req, res) => {
     message: req.body.message,
     createdBy: req.session.account._id,
   };
-*/
 
   // example message data
   const messageData = {

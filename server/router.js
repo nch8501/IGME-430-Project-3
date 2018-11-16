@@ -13,10 +13,13 @@ const router = (app) => {
 
 
   app.get('/chat', mid.requiresLogin, controllers.Chat.chatPage);
+  app.get('/goToChatScreen', mid.requiresLogin, controllers.Chat.goToChatScreen);
+  app.get('/chatScreen', mid.requiresLogin, controllers.ChatScreen.chatScreenPage);
+
+
   app.get('/getChats', mid.requiresLogin, controllers.Chat.getChatByCreatedBy);
   app.post('/makeChat', mid.requiresLogin, controllers.Chat.makeChat);
 
-  app.get('/chatScreen', mid.requiresLogin, controllers.ChatScreen.chatScreenPage);
 
   app.post('/addMessage', mid.requiresLogin, controllers.ChatScreen.addMessage);
 

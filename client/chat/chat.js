@@ -3,9 +3,6 @@ const handleChat = (e) =>{
   console.dir("Handling Chat");
   e.preventDefault();
   
-  const temp = $("#chatForm").serialize();
-  console.dir(typeof temp);
-  
   sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function(){ 
     loadChatsFromServer();
   });
@@ -14,34 +11,20 @@ const handleChat = (e) =>{
   
 };
 
-//shows the database id of the chat
-const test = (e) =>{
-  
-  const chatId = e.target.getAttribute("id");
-  
-  /*
-  sendAjax('POST', '/addMessage', $("#chatForm").serialize(), function(){ 
-    console.dir('Added Message');
-  });
 
+//goes to the selected chat screen
+const goToChat = (e) =>{
+  e.preventDefault();
+  
+  const children = e.target.childNodes;
+  const chatId = children[1].value;
+  console.dir('In Going to Chat Method');
   
   
-  console.dir(chatId);
-  */
+  //send ajax request
+  sendAjax('GET', e.target.getAttribute('action'), $("#" + chatId).serialize(), redirect);  
   
-
-  let temp = {
-    chat: chatId,
-  };
-  
-  const tempJson = JSON.stringify(temp);
-  console.dir(tempJson);
-  
-  sendAjax('GET', '/chatScreen', tempJson, function(){ 
-    console.dir('Added Message');
-  });
-  
-  
+  return false;
 };
 
 //creates the chat form to create a new chat
@@ -78,13 +61,22 @@ const ChatList = function(props){
   }
   
   const chatNodes = props.chats.map(function(chat){
-    console.dir(chat._id);
     return(
       //change class later
-      <div key={chat._id} id={chat._id} className="domo" onClick={test}>
+      <div key={chat._id} className="domo">
         <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
         <h3 className="domoName">Title: {chat.title}</h3>
         <h3 className="domoAge">Description: {chat.description}</h3>
+        <form name="goToChatForm"
+              onSubmit={goToChat}
+              action="/goToChatScreen"
+              method='GET'
+              id={chat._id}
+          >
+          <input type="hidden" name="_csrf" value={props.csrf} />
+          <input type="hidden" name="chatId" value={chat._id} />
+          <input type="submit" value="Got to Chat" />
+        </form>
       </div>
     );
   });
@@ -99,19 +91,18 @@ const ChatList = function(props){
 
 
 //loads the chats from the server
-const loadChatsFromServer = () =>{
+const loadChatsFromServer = (csrf) =>{
   sendAjax('GET', '/getChats', null, (data) =>{
     ReactDOM.render(
-      <ChatList chats={data.chats} />,
+      <ChatList csrf={csrf} chats={data.chats} />,
       document.querySelector("#chats")
     );
   });
   
 };
 
-
 const setup = function(csrf){
-  
+  console.dir(csrf);
   //chat creator
   ReactDOM.render(
     <ChatForm csrf={csrf} />,
@@ -120,12 +111,12 @@ const setup = function(csrf){
   
   //list of chats
   ReactDOM.render(
-    <ChatList chats={[]} />,
+    <ChatList csrf={csrf} chats={[]} />,
     document.querySelector("#chats"),
   );
   
   //load chats from the server
-  loadChatsFromServer();
+  loadChatsFromServer(csrf);
 };
 
 const getToken = () =>{

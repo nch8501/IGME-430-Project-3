@@ -1,4 +1,5 @@
 const models = require('../models');
+const url = require('url');
 
 const Chat = models.Chat;
 
@@ -14,6 +15,20 @@ const chatPage = (req, res) => {
 
     return res.render('chat', { csrfToken: req.csrfToken(), chats: docs });
   });
+};
+
+// redirects to the selected chat screen
+const goToChatScreen = (req, res) => {
+  // get the url parameters
+  const params = url.parse(req.url, true).query;
+
+  // check for chatId
+  if (!params.chatId) {
+    return res.status(400).json({ error: 'An error occurred' });
+  }
+
+  // redirect to chat screen page
+  return res.json({ redirect: `/chatScreen?chatId=${params.chatId}` });
 };
 
 // creates a new chat
@@ -70,5 +85,6 @@ const getChatByCreatedBy = (request, response) => {
 };
 
 module.exports.chatPage = chatPage;
+module.exports.goToChatScreen = goToChatScreen;
 module.exports.makeChat = makeChat;
 module.exports.getChatByCreatedBy = getChatByCreatedBy;

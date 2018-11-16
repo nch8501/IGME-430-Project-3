@@ -1,14 +1,9 @@
 "use strict";
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 //handles the submission of a new chat
 var handleChat = function handleChat(e) {
   console.dir("Handling Chat");
   e.preventDefault();
-
-  var temp = $("#chatForm").serialize();
-  console.dir(typeof temp === "undefined" ? "undefined" : _typeof(temp));
 
   sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function () {
     loadChatsFromServer();
@@ -17,30 +12,18 @@ var handleChat = function handleChat(e) {
   return false;
 };
 
-//shows the database id of the chat
-var test = function test(e) {
+//goes to the selected chat screen
+var goToChat = function goToChat(e) {
+  e.preventDefault();
 
-  var chatId = e.target.getAttribute("id");
+  var children = e.target.childNodes;
+  var chatId = children[1].value;
+  console.dir('In Going to Chat Method');
 
-  /*
-  sendAjax('POST', '/addMessage', $("#chatForm").serialize(), function(){ 
-    console.dir('Added Message');
-  });
-    
-  
-  console.dir(chatId);
-  */
+  //send ajax request
+  sendAjax('GET', e.target.getAttribute('action'), $("#" + chatId).serialize(), redirect);
 
-  var temp = {
-    chat: chatId
-  };
-
-  var tempJson = JSON.stringify(temp);
-  console.dir(tempJson);
-
-  sendAjax('GET', '/chatScreen', tempJson, function () {
-    console.dir('Added Message');
-  });
+  return false;
 };
 
 //creates the chat form to create a new chat
@@ -89,12 +72,11 @@ var ChatList = function ChatList(props) {
   }
 
   var chatNodes = props.chats.map(function (chat) {
-    console.dir(chat._id);
     return (
       //change class later
       React.createElement(
         "div",
-        { key: chat._id, id: chat._id, className: "domo", onClick: test },
+        { key: chat._id, className: "domo" },
         React.createElement("img", { src: "/assets/img/domoface.jpeg", alt: "domo face", className: "domoFace" }),
         React.createElement(
           "h3",
@@ -107,6 +89,18 @@ var ChatList = function ChatList(props) {
           { className: "domoAge" },
           "Description: ",
           chat.description
+        ),
+        React.createElement(
+          "form",
+          { name: "goToChatForm",
+            onSubmit: goToChat,
+            action: "/goToChatScreen",
+            method: "GET",
+            id: chat._id
+          },
+          React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
+          React.createElement("input", { type: "hidden", name: "chatId", value: chat._id }),
+          React.createElement("input", { type: "submit", value: "Got to Chat" })
         )
       )
     );
@@ -120,22 +114,22 @@ var ChatList = function ChatList(props) {
 };
 
 //loads the chats from the server
-var loadChatsFromServer = function loadChatsFromServer() {
+var loadChatsFromServer = function loadChatsFromServer(csrf) {
   sendAjax('GET', '/getChats', null, function (data) {
-    ReactDOM.render(React.createElement(ChatList, { chats: data.chats }), document.querySelector("#chats"));
+    ReactDOM.render(React.createElement(ChatList, { csrf: csrf, chats: data.chats }), document.querySelector("#chats"));
   });
 };
 
 var setup = function setup(csrf) {
-
+  console.dir(csrf);
   //chat creator
   ReactDOM.render(React.createElement(ChatForm, { csrf: csrf }), document.querySelector("#makeChat"));
 
   //list of chats
-  ReactDOM.render(React.createElement(ChatList, { chats: [] }), document.querySelector("#chats"));
+  ReactDOM.render(React.createElement(ChatList, { csrf: csrf, chats: [] }), document.querySelector("#chats"));
 
   //load chats from the server
-  loadChatsFromServer();
+  loadChatsFromServer(csrf);
 };
 
 var getToken = function getToken() {
@@ -168,8 +162,8 @@ var sendAjax = function sendAjax(type, action, data, success) {
     dataType: "json",
     success: success,
     error: function error(xhr, status, _error) {
+      console.dir(_error);
       var messageObj = JSON.parse(xhr.responseText);
-      console.dir(messageObj);
       handleError(messageObj.error);
     }
   });

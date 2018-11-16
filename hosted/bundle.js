@@ -30,6 +30,7 @@ var handleDeleteDomo = function handleDeleteDomo(e) {
   var domoId = children[1].value;
 
   sendAjax('DELETE', e.target.getAttribute('action'), $("#" + domoId).serialize(), function () {
+
     loadDomosFromServer();
   });
 
@@ -170,6 +171,7 @@ var sendAjax = function sendAjax(type, action, data, success) {
     dataType: "json",
     success: success,
     error: function error(xhr, status, _error) {
+      console.dir(_error);
       var messageObj = JSON.parse(xhr.responseText);
       handleError(messageObj.error);
     }

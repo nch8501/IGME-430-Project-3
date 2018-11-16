@@ -6,7 +6,7 @@ var handleMessage = function handleMessage(e) {
   e.preventDefault();
 
   sendAjax('POST', $("#messageForm").attr("action"), $("#messageForm").serialize(), function () {
-    loadMessagesFromServer();
+    //loadMessagesFromServer();
   });
 
   return false;
@@ -101,16 +101,18 @@ var setup = function setup(csrf) {
   ReactDOM.render(React.createElement(MessageForm, { csrf: csrf }), document.querySelector("#messageForm"));
 
   //load messages
-  loadMessagesFromServer();
+  //loadMessagesFromServer();
 };
 
 var getToken = function getToken() {
+  console.dir('Getting Token on Chat Screen');
   sendAjax('GET', '/getToken', null, function (result) {
     setup(result.csrfToken);
   });
 };
 
 $(document).ready(function () {
+  console.dir('Chat Screen Ready');
   getToken();
 });
 "use strict";
@@ -134,8 +136,8 @@ var sendAjax = function sendAjax(type, action, data, success) {
     dataType: "json",
     success: success,
     error: function error(xhr, status, _error) {
+      console.dir(_error);
       var messageObj = JSON.parse(xhr.responseText);
-      console.dir(messageObj);
       handleError(messageObj.error);
     }
   });

@@ -4,7 +4,7 @@ const handleMessage = (e) =>{
   e.preventDefault();
   
   sendAjax('POST', $("#messageForm").attr("action"), $("#messageForm").serialize(), function(){ 
-    loadMessagesFromServer();
+    //loadMessagesFromServer();
   });
   
   return false; 
@@ -97,15 +97,17 @@ const setup = function(csrf){
   );
   
   //load messages
-  loadMessagesFromServer();
+  //loadMessagesFromServer();
 };
 
 const getToken = () =>{
+  console.dir('Getting Token on Chat Screen');
   sendAjax('GET', '/getToken', null, (result) =>{
     setup(result.csrfToken);
   });
 };
 
 $(document).ready(function(){
+  console.dir('Chat Screen Ready');
   getToken();
 });
