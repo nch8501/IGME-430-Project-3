@@ -32,29 +32,41 @@ var goToChat = function goToChat(e) {
 //creates the chat form to create a new chat
 var ChatForm = function ChatForm(props) {
   return React.createElement(
-    "form",
-    { id: "chatForm", name: "chatForm",
-      onSubmit: handleChat
-      //change action later
-      , action: "/makeChat",
-      method: "POST"
-      //change class later
-      , className: "domoForm"
-    },
+    "div",
+    { className: "chatForm" },
     React.createElement(
-      "label",
-      { htmlFor: "title" },
-      "Title: "
+      "h3",
+      null,
+      "Create New Chat"
     ),
-    React.createElement("input", { id: "chatTitle", type: "text", name: "title", placeholder: "Chat Title" }),
     React.createElement(
-      "label",
-      { htmlFor: "description" },
-      "Description: "
-    ),
-    React.createElement("input", { id: "chatDescription", type: "text", name: "description", placeholder: "Description" }),
-    React.createElement("input", { id: "csrfToken", type: "hidden", name: "_csrf", value: props.csrf }),
-    React.createElement("input", { className: "maheDomoSubmit", type: "submit", value: "Create Chat" })
+      "form",
+      { id: "chatForm", name: "chatForm",
+        onSubmit: handleChat
+        //change action later
+        , action: "/makeChat",
+        method: "POST"
+
+      },
+      React.createElement(
+        "label",
+        { htmlFor: "title" },
+        "Title: "
+      ),
+      React.createElement("div", null),
+      React.createElement("input", { id: "chatTitle", type: "text", name: "title", placeholder: "Chat Title" }),
+      React.createElement("div", null),
+      React.createElement(
+        "label",
+        { htmlFor: "description" },
+        "Description: "
+      ),
+      React.createElement("div", null),
+      React.createElement("textarea", { id: "chatDescription", rows: "4", cols: "50", name: "description", placeholder: "Description" }),
+      React.createElement("input", { id: "csrfToken", type: "hidden", name: "_csrf", value: props.csrf }),
+      React.createElement("div", null),
+      React.createElement("input", { className: "chatFormSubmit", type: "submit", value: "Create Chat" })
+    )
   );
 };
 
@@ -68,7 +80,7 @@ var ChatList = function ChatList(props) {
         { className: "domoList" },
         React.createElement(
           "h3",
-          { className: "emptyDomo" },
+          { className: "emptyChat" },
           "No Chats Yet"
         )
       )
@@ -81,22 +93,19 @@ var ChatList = function ChatList(props) {
       React.createElement(
         "div",
         { key: chat._id, className: "domo" },
-        React.createElement("img", { src: "/assets/img/domoface.jpeg", alt: "domo face", className: "domoFace" }),
         React.createElement(
           "h3",
-          { className: "domoName" },
-          "Title: ",
+          { className: "chatTitle" },
           chat.title
         ),
         React.createElement(
-          "h3",
-          { className: "domoAge" },
-          "Description: ",
+          "h4",
+          { className: "chatDescription" },
           chat.description
         ),
         React.createElement(
           "form",
-          { name: "goToChatForm",
+          { className: "goToChatForm", name: "goToChatForm",
             onSubmit: goToChat,
             action: "/goToChatScreen",
             method: "GET",
@@ -104,7 +113,7 @@ var ChatList = function ChatList(props) {
           },
           React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
           React.createElement("input", { type: "hidden", name: "chatId", value: chat._id }),
-          React.createElement("input", { type: "submit", value: "Got to Chat" })
+          React.createElement("input", { type: "submit", value: "Enter Chat" })
         )
       )
     );

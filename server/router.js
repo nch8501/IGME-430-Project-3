@@ -22,6 +22,7 @@ const router = (app) => {
 
 
   app.post('/addMessage', mid.requiresLogin, controllers.ChatScreen.addMessage);
+  app.get('/getMessages', mid.requiresLogin, controllers.ChatScreen.getMessages);
 
 
   // app.post('/maker', mid.requiresLogin, controllers.Domo.make);

@@ -30,22 +30,30 @@ const goToChat = (e) =>{
 //creates the chat form to create a new chat
 const ChatForm = (props) =>{
   return(
-  <form id="chatForm" name="chatForm"
+    <div className="chatForm">
+      <h3>Create New Chat</h3>
+      <form id="chatForm" name="chatForm"
         onSubmit={handleChat}
         //change action later
         action="/makeChat"
         method='POST'
-        //change class later
-        className="domoForm"
-    >
-    <label htmlFor="title">Title: </label>
-    <input id="chatTitle" type="text" name="title" placeholder="Chat Title" />
-    <label htmlFor="description">Description: </label>
-    <input id="chatDescription" type="text" name="description" placeholder="Description" />
-    <input id="csrfToken" type="hidden" name="_csrf" value={props.csrf} />
+
+        >
+        <label htmlFor="title">Title: </label>
+        <div></div>
+        <input id="chatTitle" type="text" name="title" placeholder="Chat Title" />
+        <div></div>
+        <label htmlFor="description">Description: </label>
+        <div></div>
+        <textarea id="chatDescription" rows="4" cols="50" name="description" placeholder="Description"></textarea>
+        <input id="csrfToken" type="hidden" name="_csrf" value={props.csrf} />
+        <div></div>
+        <input className="chatFormSubmit" type="submit" value="Create Chat" />  
+      </form>
     
-    <input className="maheDomoSubmit" type="submit" value="Create Chat" />  
-  </form>
+    
+    </div>
+  
   );
 };
 
@@ -55,7 +63,7 @@ const ChatList = function(props){
     return(
       //change classes later
       <div className="domoList">
-        <h3 className="emptyDomo">No Chats Yet</h3>
+        <h3 className="emptyChat">No Chats Yet</h3>
       </div>
     );
   }
@@ -64,10 +72,9 @@ const ChatList = function(props){
     return(
       //change class later
       <div key={chat._id} className="domo">
-        <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-        <h3 className="domoName">Title: {chat.title}</h3>
-        <h3 className="domoAge">Description: {chat.description}</h3>
-        <form name="goToChatForm"
+        <h3 className="chatTitle">{chat.title}</h3>
+        <h4 className="chatDescription">{chat.description}</h4>
+        <form className="goToChatForm" name="goToChatForm"
               onSubmit={goToChat}
               action="/goToChatScreen"
               method='GET'
@@ -75,7 +82,7 @@ const ChatList = function(props){
           >
           <input type="hidden" name="_csrf" value={props.csrf} />
           <input type="hidden" name="chatId" value={chat._id} />
-          <input type="submit" value="Got to Chat" />
+          <input type="submit" value="Enter Chat" />
         </form>
       </div>
     );

@@ -2,15 +2,15 @@
 const handleMessage = (e) =>{
   e.preventDefault();
   
-  console.dir($("#messageForm").serialize());
-  
   //send ajax request
   sendAjax('POST', $("#messageForm").attr("action"), $("#messageForm").serialize(), function(){ 
     console.dir('Message Made');
     
-    //loadMessagesFromServer();
-    //
-    //
+    const chatId ={
+      chatId: document.getElementById("chatId").innerHTML,
+    };
+    
+    loadMessagesFromServer(chatId);
   });
   
   return false; 
@@ -30,8 +30,7 @@ const MessageList = function(props){
     return(
       //change class later
       <div key={message._id} className="domo">
-        <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-        <h3 className="domoName">{message.createdBy}</h3>
+
         <h4 className="domoAge">{message.message}</h4>
       </div>
     );
@@ -68,13 +67,11 @@ const MessageForm = (props) =>{
 };
 
 //loads the list of messages
-const loadMessagesFromServer = () =>{
-  //
-  //
+const loadMessagesFromServer = (chatId) =>{
   //need to also send the chat's ID
-  sendAjax('GET', '/getMessages', null, (data) =>{
+  sendAjax('GET', '/getMessages', chatId, (data) =>{
     ReactDOM.render(
-      <MessageList messages={data.messages} />,
+      <MessageList messages={data.chat} />,
       document.querySelector("#messageSection")
     );
   });
@@ -95,10 +92,12 @@ const setup = function(csrf){
     document.querySelector("#message"),
   );
   
-  //
-  //
   //load messages
-  //loadMessagesFromServer();
+  const chatId ={
+      chatId: document.getElementById("chatId").innerHTML,
+    };
+
+  loadMessagesFromServer(chatId);
 };
 
 //gets the csrf token

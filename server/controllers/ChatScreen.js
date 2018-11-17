@@ -34,7 +34,7 @@ const addMessage = (req, res) => {
 
 
   // get specific chat id
-  Chat.ChatModel.addMessage(req.body.chatId, messageData, () => {
+  return Chat.ChatModel.addMessage(req.body.chatId, messageData, () => {
     console.dir('Made message');
     //
     // re-render chat screen
@@ -48,9 +48,18 @@ const getMessages = (request, response) => {
   const req = request;
   const res = response;
 
+  const params = url.parse(req.url, true).query;
+  console.dir(params.chatId);
+
   // return all messages for this chat
-  //
-  //
+  return Chat.ChatModel.findById(params.chatId, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred' });
+    }
+    console.dir(docs.messages);
+    return res.json({ chat: docs.messages });
+  });
 };
 
 module.exports.chatScreenPage = chatScreenPage;

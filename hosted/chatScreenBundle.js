@@ -4,15 +4,15 @@
 var handleMessage = function handleMessage(e) {
   e.preventDefault();
 
-  console.dir($("#messageForm").serialize());
-
   //send ajax request
   sendAjax('POST', $("#messageForm").attr("action"), $("#messageForm").serialize(), function () {
     console.dir('Message Made');
 
-    //loadMessagesFromServer();
-    //
-    //
+    var chatId = {
+      chatId: document.getElementById("chatId").innerHTML
+    };
+
+    loadMessagesFromServer(chatId);
   });
 
   return false;
@@ -38,12 +38,6 @@ var MessageList = function MessageList(props) {
       React.createElement(
         "div",
         { key: message._id, className: "domo" },
-        React.createElement("img", { src: "/assets/img/domoface.jpeg", alt: "domo face", className: "domoFace" }),
-        React.createElement(
-          "h3",
-          { className: "domoName" },
-          message.createdBy
-        ),
         React.createElement(
           "h4",
           { className: "domoAge" },
@@ -88,12 +82,10 @@ var MessageForm = function MessageForm(props) {
 };
 
 //loads the list of messages
-var loadMessagesFromServer = function loadMessagesFromServer() {
-  //
-  //
+var loadMessagesFromServer = function loadMessagesFromServer(chatId) {
   //need to also send the chat's ID
-  sendAjax('GET', '/getMessages', null, function (data) {
-    ReactDOM.render(React.createElement(MessageList, { messages: data.messages }), document.querySelector("#messageSection"));
+  sendAjax('GET', '/getMessages', chatId, function (data) {
+    ReactDOM.render(React.createElement(MessageList, { messages: data.chat }), document.querySelector("#messageSection"));
   });
 };
 
@@ -106,10 +98,12 @@ var setup = function setup(csrf) {
   //message creator
   ReactDOM.render(React.createElement(MessageForm, { csrf: csrf }), document.querySelector("#message"));
 
-  //
-  //
   //load messages
-  //loadMessagesFromServer();
+  var chatId = {
+    chatId: document.getElementById("chatId").innerHTML
+  };
+
+  loadMessagesFromServer(chatId);
 };
 
 //gets the csrf token

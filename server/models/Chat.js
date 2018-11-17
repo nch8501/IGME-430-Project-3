@@ -80,7 +80,7 @@ ChatSchema.statics.findById = (chatId, callback) => {
     _id: chatId,
   };
 
-  return ChatModel.findOne(search).select('title description createdBy').exec(callback);
+  return ChatModel.findOne(search).select('title description messages createdBy').exec(callback);
 };
 
 // finds all chats on server
