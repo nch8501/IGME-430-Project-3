@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 
 mongoose.Promise = global.Promise;
-
+const convertId = mongoose.Types.ObjectId;
 
 let AccountModel = {};
 const iterations = 10000;
@@ -71,6 +71,16 @@ AccountSchema.statics.generateHash = (password, callback) => {
   crypto.pbkdf2(password, salt, iterations, keyLength, 'RSA-SHA512', (err, hash) =>
     callback(salt, hash.toString('hex'))
   );
+};
+
+AccountSchema.statics.updatePassword = (userId, password, salt, callback) => {
+  // create search query
+  const query = {
+    _id: convertId(userId),
+  };
+
+  // update password and salt
+  return AccountModel.findOneAndUpdate(query, { $set: { password, salt } }).exec(callback);
 };
 
 AccountSchema.statics.authenticate = (username, password, callback) =>

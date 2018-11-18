@@ -9,13 +9,14 @@
   "main": "./server/app.js",
   "scripts": {
     "buildLoginBundle": "babel ./client/login ./client/helper --presets react --out-file ./hosted/loginBundle.js",
-    "buildAppBundle": "babel ./client/app ./client/helper --presets react --out-file ./hosted/bundle.js",
     "buildChatBundle": "babel ./client/chat ./client/helper --presets react --out-file ./hosted/chatBundle.js",
-    "build": "npm run buildLoginBundle && npm run buildAppBundle && npm run buildChatBundle",
+    "buildChatScreenBundle": "babel ./client/chatScreen ./client/helper --presets react --out-file ./hosted/chatScreenBundle.js",
+    "buildAccountBundle": "babel ./client/account ./client/helper --presets react --out-file ./hosted/accountBundle.js",
+    "build": "npm run buildLoginBundle && npm run buildChatBundle && npm run buildChatScreenBundle && npm run buildAccountBundle",
     "watchLoginBundle": "babel --watch ./client/login ./client/helper --presets react --out-file ./hosted/loginBundle.js",
-    "watchAppBundle": "babel --watch ./client/app ./client/helper --presets react --out-file ./hosted/bundle.js",
     "watchChatBundle": "babel --watch ./client/chat ./client/helper --presets react --out-file ./hosted/chatBundle.js",
     "watchChatScreenBundle": "babel --watch ./client/chatScreen ./client/helper --presets react --out-file ./hosted/chatScreenBundle.js",
+    "watchAccountBundle": "babel --watch ./client/account ./client/helper --presets react --out-file ./hosted/accountBundle.js",
     
     "nodemon": "nodemon --watch ./server ./server/app.js",
     "start": "node ./server/app.js",

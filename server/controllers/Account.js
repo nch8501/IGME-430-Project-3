@@ -79,6 +79,32 @@ const signup = (request, response) => {
   });
 };
 
+const updatePasswordPage = (req, res) => res.render('account', { csrfToken: req.csrfToken() });
+
+const updatePassword = (request, response) => {
+  const req = request;
+  const res = response;
+
+  // cast to strings
+  req.body.pass = `${req.body.pass}`;
+  req.body.pass2 = `${req.body.pass2}`;
+
+  if (!req.body.pass || !req.body.pass2) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  if (req.body.pass !== req.body.pass2) {
+    return res.status(400).json({ error: 'Passwords do not match' });
+  }
+
+  return Account.AccountModel.generateHash(req.body.pass, (salt, hash) =>
+    // update password
+     Account.AccountModel.updatePassword(req.session.account._id, hash, salt, () => {
+      //
+       res.json({ message: 'password changed' });
+     }));
+};
+
 
 const getToken = (request, response) => {
   const req = request;
@@ -97,3 +123,5 @@ module.exports.login = login;
 module.exports.logout = logout;
 module.exports.signup = signup;
 module.exports.getToken = getToken;
+module.exports.updatePasswordPage = updatePasswordPage;
+module.exports.updatePassword = updatePassword;

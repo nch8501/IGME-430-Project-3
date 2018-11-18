@@ -2,6 +2,14 @@
 const handleChat = (e) =>{
   e.preventDefault();
   
+  $("#domoMessage").animate({width: 'hide'}, 350);
+  
+  if($("#chatTitle").val() == '' || $("#chatDescription").val() == ''){
+    console.dir('ERROR');
+    handleError("Title and Description required to create chat");
+    return false;
+  }
+  
   //send the chat data to ajax
   sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function(){ 
     //re-load the chat list

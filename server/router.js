@@ -4,7 +4,6 @@ const mid = require('./middleware');
 // routes to go to
 const router = (app) => {
   app.get('/getToken', mid.requiresSecure, controllers.Account.getToken);
-  // app.get('/getDomos', mid.requiresLogin, controllers.Domo.getDomos);
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
@@ -20,9 +19,9 @@ const router = (app) => {
   app.post('/addMessage', mid.requiresLogin, controllers.ChatScreen.addMessage);
   app.get('/getMessages', mid.requiresLogin, controllers.ChatScreen.getMessages);
 
+  app.get('/account', mid.requiresLogin, controllers.Account.updatePasswordPage);
+  app.post('/updatePassword', mid.requiresLogin, controllers.Account.updatePassword);
 
-  // app.post('/maker', mid.requiresLogin, controllers.Domo.make);
-  // app.delete('/deleteDomo', mid.requiresLogin, controllers.Domo.delete);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 

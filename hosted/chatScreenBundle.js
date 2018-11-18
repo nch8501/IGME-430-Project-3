@@ -4,6 +4,13 @@
 var handleMessage = function handleMessage(e) {
   e.preventDefault();
 
+  $("#domoMessage").animate({ width: 'hide' }, 350);
+
+  if ($("#messageArea").val() == '') {
+    handleError("Message Required");
+    return false;
+  }
+
   //send ajax request
   sendAjax('POST', $("#messageForm").attr("action"), $("#messageForm").serialize(), function () {
     var chatId = {
