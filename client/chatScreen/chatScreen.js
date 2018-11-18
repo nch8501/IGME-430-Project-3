@@ -4,11 +4,11 @@ const handleMessage = (e) =>{
   
   //send ajax request
   sendAjax('POST', $("#messageForm").attr("action"), $("#messageForm").serialize(), function(){ 
-    console.dir('Message Made');
-    
     const chatId ={
       chatId: document.getElementById("chatId").innerHTML,
     };
+    
+    document.querySelector('#messageArea').value = '';
     
     loadMessagesFromServer(chatId);
   });
@@ -20,8 +20,8 @@ const handleMessage = (e) =>{
 const MessageList = function(props){
   if(props.messages.length === 0){
     return(
-      <div className="domoList">
-        <h3 className="emptyDomo">No Messages Yet</h3>
+      <div>
+        <h3 className="emptyMessage">No Messages Yet</h3>
       </div>
     );
   }
@@ -29,15 +29,15 @@ const MessageList = function(props){
   const messageNodes = props.messages.map(function(message){
     return(
       //change class later
-      <div key={message._id} className="domo">
-
-        <h4 className="domoAge">{message.message}</h4>
+      <div key={message._id} className="message">
+        <h3 className="messageCreator">{message.username}</h3>
+        <h4 className="messageContent">{message.message}</h4>
       </div>
     );
   });
   
   return(
-    <div className="domoList">
+    <div>
       {messageNodes}
     </div>
   );
@@ -55,20 +55,19 @@ const MessageForm = (props) =>{
         action="/addMessage"
         method='POST'
         //change class later
-        className="domoForm"
+        className="messageForm"
     >
-    <label htmlFor="message">Message: </label>
-    <input id="message" type="text" name="message" placeholder="Message" />
+    <label htmlFor="message">Add Message: </label>
+    <input id="messageArea" type="text" name="message" placeholder="Message" />
     <input id="csrfToken" type="hidden" name="_csrf" value={props.csrf} />   
     <input id="chatIdForMessage" type="hidden" name="chatId" value={chatId} />
-    <input className="maheDomoSubmit" type="submit" value="Post Message" />  
+    <input className="messageSubmit" type="submit" value="Post Message" />  
   </form>
   );
 };
 
 //loads the list of messages
 const loadMessagesFromServer = (chatId) =>{
-  //need to also send the chat's ID
   sendAjax('GET', '/getMessages', chatId, (data) =>{
     ReactDOM.render(
       <MessageList messages={data.chat} />,
@@ -78,8 +77,7 @@ const loadMessagesFromServer = (chatId) =>{
 };
 
 //sets up the chat screen
-const setup = function(csrf){
-  
+const setup = function(csrf){  
   //message section
   ReactDOM.render(
     <MessageList messages={[]} />,

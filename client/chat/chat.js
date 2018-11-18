@@ -5,8 +5,6 @@ const handleChat = (e) =>{
   //send the chat data to ajax
   sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function(){ 
     //re-load the chat list
-    //
-    //need to send token
     loadChatsFromServer();
   });
   
@@ -37,7 +35,6 @@ const ChatForm = (props) =>{
         //change action later
         action="/makeChat"
         method='POST'
-
         >
         <label htmlFor="title">Title: </label>
         <div></div>
@@ -50,10 +47,7 @@ const ChatForm = (props) =>{
         <div></div>
         <input className="chatFormSubmit" type="submit" value="Create Chat" />  
       </form>
-    
-    
     </div>
-  
   );
 };
 
@@ -61,8 +55,7 @@ const ChatForm = (props) =>{
 const ChatList = function(props){
   if(props.chats.length === 0){
     return(
-      //change classes later
-      <div className="domoList">
+      <div>
         <h3 className="emptyChat">No Chats Yet</h3>
       </div>
     );
@@ -70,7 +63,6 @@ const ChatList = function(props){
   
   const chatNodes = props.chats.map(function(chat){
     return(
-      //change class later
       <div key={chat._id} className="domo">
         <h3 className="chatTitle">{chat.title}</h3>
         <h4 className="chatDescription">{chat.description}</h4>
@@ -124,6 +116,7 @@ const setup = function(csrf){
   loadChatsFromServer(csrf);
 };
 
+//gets the csrf token
 const getToken = () =>{
   //send ajax request
   sendAjax('GET', '/getToken', null, (result) =>{

@@ -2,6 +2,7 @@ const models = require('../models');
 const url = require('url');
 
 const Chat = models.Chat;
+const Account = models.Account;
 
 // renders the chat screen page
 const chatScreenPage = (req, res) => {
@@ -26,38 +27,39 @@ const addMessage = (req, res) => {
     return res.status(400).json({ error: 'Message required' });
   }
 
-  // make message data
-  const messageData = {
-    message: req.body.message,
-    createdBy: req.session.account._id,
-  };
+  // get username
+  return Account.AccountModel.findUsernameById(req.session.account._id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred while posting message' });
+    }
 
+    // make message data
+    const messageData = {
+      message: req.body.message,
+      createdBy: req.session.account._id,
+      username: docs.username,
+    };
 
-  // get specific chat id
-  return Chat.ChatModel.addMessage(req.body.chatId, messageData, () => {
-    console.dir('Made message');
-    //
-    // re-render chat screen
-    return res.json({ x: 'x' });
+    return Chat.ChatModel.addMessage(req.body.chatId, messageData, () =>
+      // re-render chat screen
+       res.json({ message: 'added' }));
   });
 };
 
 // gets the messages of the chat
 const getMessages = (request, response) => {
-  console.dir('In GetMessages');
   const req = request;
   const res = response;
 
   const params = url.parse(req.url, true).query;
-  console.dir(params.chatId);
 
   // return all messages for this chat
   return Chat.ChatModel.findById(params.chatId, (err, docs) => {
     if (err) {
       console.log(err);
-      return res.status(400).json({ error: 'An error occurred' });
+      return res.status(400).json({ error: 'An error occurred while retrieving messages' });
     }
-    console.dir(docs.messages);
     return res.json({ chat: docs.messages });
   });
 };

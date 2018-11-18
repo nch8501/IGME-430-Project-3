@@ -7,8 +7,6 @@ var handleChat = function handleChat(e) {
   //send the chat data to ajax
   sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function () {
     //re-load the chat list
-    //
-    //need to send token
     loadChatsFromServer();
   });
 
@@ -46,7 +44,6 @@ var ChatForm = function ChatForm(props) {
         //change action later
         , action: "/makeChat",
         method: "POST"
-
       },
       React.createElement(
         "label",
@@ -73,48 +70,42 @@ var ChatForm = function ChatForm(props) {
 //creates the list of chats
 var ChatList = function ChatList(props) {
   if (props.chats.length === 0) {
-    return (
-      //change classes later
+    return React.createElement(
+      "div",
+      null,
       React.createElement(
-        "div",
-        { className: "domoList" },
-        React.createElement(
-          "h3",
-          { className: "emptyChat" },
-          "No Chats Yet"
-        )
+        "h3",
+        { className: "emptyChat" },
+        "No Chats Yet"
       )
     );
   }
 
   var chatNodes = props.chats.map(function (chat) {
-    return (
-      //change class later
+    return React.createElement(
+      "div",
+      { key: chat._id, className: "domo" },
       React.createElement(
-        "div",
-        { key: chat._id, className: "domo" },
-        React.createElement(
-          "h3",
-          { className: "chatTitle" },
-          chat.title
-        ),
-        React.createElement(
-          "h4",
-          { className: "chatDescription" },
-          chat.description
-        ),
-        React.createElement(
-          "form",
-          { className: "goToChatForm", name: "goToChatForm",
-            onSubmit: goToChat,
-            action: "/goToChatScreen",
-            method: "GET",
-            id: chat._id
-          },
-          React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
-          React.createElement("input", { type: "hidden", name: "chatId", value: chat._id }),
-          React.createElement("input", { type: "submit", value: "Enter Chat" })
-        )
+        "h3",
+        { className: "chatTitle" },
+        chat.title
+      ),
+      React.createElement(
+        "h4",
+        { className: "chatDescription" },
+        chat.description
+      ),
+      React.createElement(
+        "form",
+        { className: "goToChatForm", name: "goToChatForm",
+          onSubmit: goToChat,
+          action: "/goToChatScreen",
+          method: "GET",
+          id: chat._id
+        },
+        React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
+        React.createElement("input", { type: "hidden", name: "chatId", value: chat._id }),
+        React.createElement("input", { type: "submit", value: "Enter Chat" })
       )
     );
   });
@@ -146,6 +137,7 @@ var setup = function setup(csrf) {
   loadChatsFromServer(csrf);
 };
 
+//gets the csrf token
 var getToken = function getToken() {
   //send ajax request
   sendAjax('GET', '/getToken', null, function (result) {

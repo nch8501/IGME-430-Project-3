@@ -6,11 +6,11 @@ var handleMessage = function handleMessage(e) {
 
   //send ajax request
   sendAjax('POST', $("#messageForm").attr("action"), $("#messageForm").serialize(), function () {
-    console.dir('Message Made');
-
     var chatId = {
       chatId: document.getElementById("chatId").innerHTML
     };
+
+    document.querySelector('#messageArea').value = '';
 
     loadMessagesFromServer(chatId);
   });
@@ -23,10 +23,10 @@ var MessageList = function MessageList(props) {
   if (props.messages.length === 0) {
     return React.createElement(
       "div",
-      { className: "domoList" },
+      null,
       React.createElement(
         "h3",
-        { className: "emptyDomo" },
+        { className: "emptyMessage" },
         "No Messages Yet"
       )
     );
@@ -37,10 +37,15 @@ var MessageList = function MessageList(props) {
       //change class later
       React.createElement(
         "div",
-        { key: message._id, className: "domo" },
+        { key: message._id, className: "message" },
+        React.createElement(
+          "h3",
+          { className: "messageCreator" },
+          message.username
+        ),
         React.createElement(
           "h4",
-          { className: "domoAge" },
+          { className: "messageContent" },
           message.message
         )
       )
@@ -49,7 +54,7 @@ var MessageList = function MessageList(props) {
 
   return React.createElement(
     "div",
-    { className: "domoList" },
+    null,
     messageNodes
   );
 };
@@ -67,23 +72,22 @@ var MessageForm = function MessageForm(props) {
       , action: "/addMessage",
       method: "POST"
       //change class later
-      , className: "domoForm"
+      , className: "messageForm"
     },
     React.createElement(
       "label",
       { htmlFor: "message" },
-      "Message: "
+      "Add Message: "
     ),
-    React.createElement("input", { id: "message", type: "text", name: "message", placeholder: "Message" }),
+    React.createElement("input", { id: "messageArea", type: "text", name: "message", placeholder: "Message" }),
     React.createElement("input", { id: "csrfToken", type: "hidden", name: "_csrf", value: props.csrf }),
     React.createElement("input", { id: "chatIdForMessage", type: "hidden", name: "chatId", value: chatId }),
-    React.createElement("input", { className: "maheDomoSubmit", type: "submit", value: "Post Message" })
+    React.createElement("input", { className: "messageSubmit", type: "submit", value: "Post Message" })
   );
 };
 
 //loads the list of messages
 var loadMessagesFromServer = function loadMessagesFromServer(chatId) {
-  //need to also send the chat's ID
   sendAjax('GET', '/getMessages', chatId, function (data) {
     ReactDOM.render(React.createElement(MessageList, { messages: data.chat }), document.querySelector("#messageSection"));
   });
@@ -91,7 +95,6 @@ var loadMessagesFromServer = function loadMessagesFromServer(chatId) {
 
 //sets up the chat screen
 var setup = function setup(csrf) {
-
   //message section
   ReactDOM.render(React.createElement(MessageList, { messages: [] }), document.querySelector("#messageSection"));
 

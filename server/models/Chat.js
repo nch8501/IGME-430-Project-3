@@ -15,6 +15,12 @@ const messageSchema = new mongoose.Schema({
     trim: true,
   },
 
+  username: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+
   createdBy: {
     type: mongoose.Schema.ObjectId,
     required: true,
