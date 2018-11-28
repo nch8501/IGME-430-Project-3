@@ -8,16 +8,8 @@
   "description": "A Simple Login Example using Node.js, Mongo and Redis",
   "main": "./server/app.js",
   "scripts": {
-    "buildLoginBundle": "babel ./client/login ./client/helper --presets react --out-file ./hosted/loginBundle.js",
-    "buildChatBundle": "babel ./client/chat ./client/helper --presets react --out-file ./hosted/chatBundle.js",
-    "buildChatScreenBundle": "babel ./client/chatScreen ./client/helper --presets react --out-file ./hosted/chatScreenBundle.js",
-    "buildAccountBundle": "babel ./client/account ./client/helper --presets react --out-file ./hosted/accountBundle.js",
-    "build": "npm run buildLoginBundle && npm run buildChatBundle && npm run buildChatScreenBundle && npm run buildAccountBundle",
-    "watchLoginBundle": "babel --watch ./client/login ./client/helper --presets react --out-file ./hosted/loginBundle.js",
-    "watchChatBundle": "babel --watch ./client/chat ./client/helper --presets react --out-file ./hosted/chatBundle.js",
-    "watchChatScreenBundle": "babel --watch ./client/chatScreen ./client/helper --presets react --out-file ./hosted/chatScreenBundle.js",
-    "watchAccountBundle": "babel --watch ./client/account ./client/helper --presets react --out-file ./hosted/accountBundle.js",
-    
+    "watch": "gulp watch",
+    "build": "gulp build",
     "nodemon": "nodemon --watch ./server ./server/app.js",
     "start": "node ./server/app.js",
     "pretest": "eslint ./server --fix",
@@ -52,6 +44,13 @@
     "eslint": "^3.0.0",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.10.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-sass": "^3.1.0",
+    "node-sass": "^4.5.2",
     "nodemon": "^1.11.0"
   }
 }

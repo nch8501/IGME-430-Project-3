@@ -31,6 +31,7 @@ const goToChatScreen = (req, res) => {
 
 // creates a new chat
 const makeChat = (req, res) => {
+  console.dir('Testing');
   // check for all necessary inputs
   if (!req.body.title || !req.body.description) {
     return res.status(400).json({ error: 'Title and Description required to create chat' });
