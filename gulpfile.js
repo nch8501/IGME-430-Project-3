@@ -6,6 +6,12 @@ const eslint = require('gulp-eslint');
 const concat = require('gulp-concat');
 
 
+gulp.task('sass', ()=>{
+	gulp.src('./scss/style.scss')
+		.pipe(sass().on('error', sass.logError))
+		.pipe(gulp.dest('./hosted/'));
+});
+
 
 
 //Bundles to be hosted
@@ -53,6 +59,9 @@ gulp.task('lint', ()=>{
 
 
 gulp.task('watch', ()=>{
+	
+	gulp.watch('./scss/style.scss',['sass']);
+	
   gulp.watch('./client/*.js',['client']);
   
   nodemon({ script: './server/app.js'
@@ -63,6 +72,7 @@ gulp.task('watch', ()=>{
 
 
 gulp.task('build', ()=>{ 
+	gulp.start('sass');
   gulp.start('client');
   gulp.start('lint');
   
