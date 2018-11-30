@@ -40,7 +40,7 @@ const PasswordForm = (props) =>{
   );
 };
 
-//sets up the chat page
+//sets up the account page
 const setup = function(csrf){
   //chat creator
   ReactDOM.render(

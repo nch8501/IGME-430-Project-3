@@ -19,7 +19,7 @@ const router = (app) => {
   app.post('/addMessage', mid.requiresLogin, controllers.ChatScreen.addMessage);
   app.get('/getMessages', mid.requiresLogin, controllers.ChatScreen.getMessages);
 
-  app.get('/account', mid.requiresLogin, controllers.Account.updatePasswordPage);
+  app.get('/account', mid.requiresLogin, controllers.AccountPage.accountPage);
   app.post('/updatePassword', mid.requiresLogin, controllers.Account.updatePassword);
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);

@@ -10,6 +10,29 @@ const iterations = 10000;
 const saltLength = 64;
 const keyLength = 64;
 
+
+const profileSchema = new mongoose.Schema({
+  firstName: {
+    type: String,
+    trim: true,
+  },
+
+  lastName: {
+    type: String,
+    trim: true,
+  },
+
+  emailAddress: {
+    type: String,
+    trim: true,
+  },
+
+  createdDate: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
 const AccountSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -26,6 +49,11 @@ const AccountSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  profile: {
+    type: profileSchema,
+  },
+
   createdDate: {
     type: Date,
     default: Date.now,
@@ -36,6 +64,7 @@ AccountSchema.statics.toAPI = doc => ({
   // _id is built into your mongo document and is guaranteed to be unique
   username: doc.username,
   _id: doc._id,
+  profile: doc.profile,
 });
 
 const validatePassword = (doc, password, callback) => {
@@ -101,6 +130,29 @@ AccountModel.findByUsername(username, (err, doc) => {
     return callback();
   });
 });
+
+// finds account by id
+AccountSchema.statics.findById = (id, callback) => {
+  // create search query
+  const query = {
+    _id: id,
+  };
+
+  return AccountModel.findOne(query).select('username profile').exec(callback);
+};
+
+
+// updates the profile information
+AccountSchema.statics.updateProfile = (id, profileData, callback) => {
+  // create search query
+  const query = {
+    _id: convertId(id),
+  };
+
+  // update profile object
+  return AccountModel.findOneAndUpdate(query, { $set: { profile: profileData } }).exec(callback);
+};
+
 
 AccountModel = mongoose.model('Account', AccountSchema);
 
