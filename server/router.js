@@ -21,6 +21,9 @@ const router = (app) => {
 
   app.get('/account', mid.requiresLogin, controllers.AccountPage.accountPage);
   app.post('/updatePassword', mid.requiresLogin, controllers.Account.updatePassword);
+  app.get('/getProfile', mid.requiresLogin, controllers.AccountPage.getProfile);
+  app.post('/updateProfile', mid.requiresLogin, controllers.AccountPage.updateProfile);
+
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.get('/*', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);

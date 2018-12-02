@@ -32,6 +32,26 @@ const updatePassword = (request, response) => {
      }));
 };
 
+const getProfile = (req, res) => {
+  console.dir('Getting Profile');
+
+  return Account.AccountModel.findById(req.session.account._id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json(
+        { error: 'An error occurred while retrieving profile information' });
+    }
+
+    // return profile information
+    return res.json({ accountInfo: docs });
+  });
+};
+
+const updateProfile = (req, res) => {
+  console.dir(res);
+  console.dir('Updating profile');
+};
+
 
 const getToken = (request, response) => {
   const req = request;
@@ -48,3 +68,5 @@ const getToken = (request, response) => {
 module.exports.accountPage = accountPage;
 module.exports.getToken = getToken;
 module.exports.updatePassword = updatePassword;
+module.exports.getProfile = getProfile;
+module.exports.updateProfile = updateProfile;

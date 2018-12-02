@@ -24,6 +24,25 @@ var handleUpdatePassword = function handleUpdatePassword(e) {
   return false;
 };
 
+//handles the profile update
+var handleUpdateProfile = function handleUpdateProfile(e) {
+  e.preventDefault();
+
+  $("#domoMessage").animate({ width: 'hide' }, 350);
+
+  if ($("#firstName").val() == '' || $("#lastName").val() == '') {
+    handleError("First and Last Name required");
+    return false;
+  }
+
+  //send ajax request
+  sendAjax('POST', $("#profileForm").attr("action"), $("#profileForm").serialize(), function () {
+    handleError("Profile Updated");
+  });
+
+  return false;
+};
+
 var AccountSection = function AccountSection(props) {
   if (!props.account) {
     return React.createElement(
@@ -43,7 +62,12 @@ var AccountSection = function AccountSection(props) {
     React.createElement(
       "h3",
       null,
-      props.account
+      "Loaded"
+    ),
+    React.createElement(
+      "h4",
+      null,
+      props.account.username
     )
   );
 };
@@ -56,6 +80,29 @@ var PersonalSection = function PersonalSection(props) {
       "h3",
       null,
       "Personal Section"
+    ),
+    React.createElement(
+      "form",
+      { id: "profileForm", name: "profileForm",
+        onSubmit: handleUpdateProfile,
+        action: "/updateProfile",
+        method: "POST",
+        className: "profileForm"
+      },
+      React.createElement(
+        "label",
+        { htmlFor: "firstName" },
+        "First Name: "
+      ),
+      React.createElement("input", { id: "firstName", type: "text", name: "firstName", placeholder: "first name" }),
+      React.createElement(
+        "label",
+        { htmlFor: "lastName" },
+        "Last Name: "
+      ),
+      React.createElement("input", { id: "lastName", type: "text", name: "lastName", placeholder: "last name" }),
+      React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
+      React.createElement("input", { className: "formSubmit", type: "submit", value: "Update Profile" })
     )
   );
 };
@@ -90,7 +137,7 @@ var PasswordForm = function PasswordForm(props) {
 var loadProfileFromServer = function loadProfileFromServer() {
   sendAjax('GET', '/getProfile', null, function (data) {
     //re-render account section
-    ReactDOM.render(React.createElement(AccountSection, { account: data }), document.querySelector("#statSection"));
+    ReactDOM.render(React.createElement(AccountSection, { account: data.accountInfo }), document.querySelector("#accountSection"));
 
     //re-render personal section
   });
