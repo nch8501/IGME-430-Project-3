@@ -24,6 +24,42 @@ var handleUpdatePassword = function handleUpdatePassword(e) {
   return false;
 };
 
+var AccountSection = function AccountSection(props) {
+  if (!props.account) {
+    return React.createElement(
+      "div",
+      null,
+      React.createElement(
+        "h3",
+        null,
+        "Unloaded"
+      )
+    );
+  }
+
+  return React.createElement(
+    "div",
+    null,
+    React.createElement(
+      "h3",
+      null,
+      props.account
+    )
+  );
+};
+
+var PersonalSection = function PersonalSection(props) {
+  return React.createElement(
+    "div",
+    null,
+    React.createElement(
+      "h3",
+      null,
+      "Personal Section"
+    )
+  );
+};
+
 var PasswordForm = function PasswordForm(props) {
   return React.createElement(
     "form",
@@ -50,15 +86,32 @@ var PasswordForm = function PasswordForm(props) {
   );
 };
 
+//loads the user's profile information
+var loadProfileFromServer = function loadProfileFromServer() {
+  sendAjax('GET', '/getProfile', null, function (data) {
+    //re-render account section
+    ReactDOM.render(React.createElement(AccountSection, { account: data }), document.querySelector("#statSection"));
+
+    //re-render personal section
+  });
+};
+
 //sets up the account page
 var setup = function setup(csrf) {
-  //chat creator
-  ReactDOM.render(React.createElement(PasswordForm, { csrf: csrf }), document.querySelector("#content"));
+  //Account section
+  ReactDOM.render(React.createElement(AccountSection, null), document.querySelector("#accountSection"));
+
+  //personal section
+  ReactDOM.render(React.createElement(PersonalSection, { csrf: csrf }), document.querySelector("#personalSection"));
+
+  //password change section
+  ReactDOM.render(React.createElement(PasswordForm, { csrf: csrf }), document.querySelector("#passwordForm"));
+
+  loadProfileFromServer();
 };
 
 //gets the csrf token
 var getToken = function getToken() {
-  //send ajax request
   sendAjax('GET', '/getToken', null, function (result) {
     setup(result.csrfToken);
   });
