@@ -20,6 +20,11 @@ const handleUpdatePassword = (e) =>{
   //send the ajax request
   sendAjax('POST', $("#passwordForm").attr("action"), $("#passwordForm").serialize(), function(){ 
     handleError("Password successfully changed");
+    //show password button again
+    ReactDOM.render(
+      <PasswordFormButton />,
+      document.querySelector("#passwordSection"),
+    );
   });
   
   return false; 
@@ -89,6 +94,25 @@ const PersonalSection = (props) =>{
   );
 };
 
+const Csrf = (props) =>{
+  return(
+    <div id="csrfToken" hidden value={props.csrf}>   
+    </div>
+  );
+};
+
+//shows Password form
+const showPasswordForm = (e) =>{
+  //get csrf token
+  const csrf = document.querySelector("#csrfToken").getAttribute("value");
+  
+  //show password form
+  ReactDOM.render(
+    <PasswordForm csrf={csrf}/>,
+    document.querySelector("#passwordSection"),
+  );
+};
+
 //creates the password form
 const PasswordForm = (props) =>{
   return(
@@ -105,6 +129,15 @@ const PasswordForm = (props) =>{
       <input type="hidden" name="_csrf" value={props.csrf} />
       <input className="formSubmit" type="submit" value="Update Password" />
     </form>
+  );
+};
+
+//creates the button to show the password form
+const PasswordFormButton = (props) =>{
+  return(
+    <div>
+      <button onClick={showPasswordForm}>Change Password</button>
+    </div>
   );
 };
 
@@ -138,8 +171,14 @@ const setup = function(csrf){
   
   //password change section
   ReactDOM.render(
-    <PasswordForm csrf={csrf} />,
-    document.querySelector("#passwordForm"),
+    <PasswordFormButton />,
+    document.querySelector("#passwordSection"),
+  );
+  
+  //csrf section
+  ReactDOM.render(
+    <Csrf csrf={csrf}/>,
+    document.querySelector("#csrf"),
   );
 
   loadProfileFromServer();

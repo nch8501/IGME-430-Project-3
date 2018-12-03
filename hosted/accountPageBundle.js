@@ -22,6 +22,8 @@ var handleUpdatePassword = function handleUpdatePassword(e) {
   //send the ajax request
   sendAjax('POST', $("#passwordForm").attr("action"), $("#passwordForm").serialize(), function () {
     handleError("Password successfully changed");
+    //show password button again
+    ReactDOM.render(React.createElement(PasswordFormButton, null), document.querySelector("#passwordSection"));
   });
 
   return false;
@@ -116,6 +118,19 @@ var PersonalSection = function PersonalSection(props) {
   );
 };
 
+var Csrf = function Csrf(props) {
+  return React.createElement("div", { id: "csrfToken", hidden: true, value: props.csrf });
+};
+
+//shows Password form
+var showPasswordForm = function showPasswordForm(e) {
+  //get csrf token
+  var csrf = document.querySelector("#csrfToken").getAttribute("value");
+
+  //show password form
+  ReactDOM.render(React.createElement(PasswordForm, { csrf: csrf }), document.querySelector("#passwordSection"));
+};
+
 //creates the password form
 var PasswordForm = function PasswordForm(props) {
   return React.createElement(
@@ -143,6 +158,19 @@ var PasswordForm = function PasswordForm(props) {
   );
 };
 
+//creates the button to show the password form
+var PasswordFormButton = function PasswordFormButton(props) {
+  return React.createElement(
+    "div",
+    null,
+    React.createElement(
+      "button",
+      { onClick: showPasswordForm },
+      "Change Password"
+    )
+  );
+};
+
 //loads the user's profile information
 var loadProfileFromServer = function loadProfileFromServer() {
   sendAjax('GET', '/getProfile', null, function (data) {
@@ -162,7 +190,10 @@ var setup = function setup(csrf) {
   ReactDOM.render(React.createElement(PersonalSection, { csrf: csrf }), document.querySelector("#personalSection"));
 
   //password change section
-  ReactDOM.render(React.createElement(PasswordForm, { csrf: csrf }), document.querySelector("#passwordForm"));
+  ReactDOM.render(React.createElement(PasswordFormButton, null), document.querySelector("#passwordSection"));
+
+  //csrf section
+  ReactDOM.render(React.createElement(Csrf, { csrf: csrf }), document.querySelector("#csrf"));
 
   loadProfileFromServer();
 };
