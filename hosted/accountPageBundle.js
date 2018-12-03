@@ -4,13 +4,16 @@
 var handleUpdatePassword = function handleUpdatePassword(e) {
   e.preventDefault();
 
+  //remove message box
   $("#domoMessage").animate({ width: 'hide' }, 350);
 
+  //check for both passwords
   if ($("#pass").val() == '' || $("#pass2").val() == '') {
     handleError("All fields are required");
     return false;
   }
 
+  //check that passwords match
   if ($("#pass").val() !== $("#pass2").val()) {
     handleError("Passwords do not match");
     return false;
@@ -28,8 +31,12 @@ var handleUpdatePassword = function handleUpdatePassword(e) {
 var handleUpdateProfile = function handleUpdateProfile(e) {
   e.preventDefault();
 
+  //remove message box
   $("#domoMessage").animate({ width: 'hide' }, 350);
 
+  //check for first and last name
+  //
+  //will later change to not require both
   if ($("#firstName").val() == '' || $("#lastName").val() == '') {
     handleError("First and Last Name required");
     return false;
@@ -43,6 +50,7 @@ var handleUpdateProfile = function handleUpdateProfile(e) {
   return false;
 };
 
+//creates the account section
 var AccountSection = function AccountSection(props) {
   if (!props.account) {
     return React.createElement(
@@ -72,6 +80,7 @@ var AccountSection = function AccountSection(props) {
   );
 };
 
+//creates the personal section
 var PersonalSection = function PersonalSection(props) {
   return React.createElement(
     "div",
@@ -107,6 +116,7 @@ var PersonalSection = function PersonalSection(props) {
   );
 };
 
+//creates the password form
 var PasswordForm = function PasswordForm(props) {
   return React.createElement(
     "form",

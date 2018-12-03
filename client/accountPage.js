@@ -2,13 +2,16 @@
 const handleUpdatePassword = (e) =>{
   e.preventDefault();
   
+  //remove message box
   $("#domoMessage").animate({width: 'hide'}, 350);
   
+  //check for both passwords
   if($("#pass").val() == '' || $("#pass2").val() == ''){
     handleError("All fields are required");
     return false;
   }
   
+  //check that passwords match
   if($("#pass").val() !== $("#pass2").val()){
     handleError("Passwords do not match");
     return false;
@@ -26,8 +29,12 @@ const handleUpdatePassword = (e) =>{
 const handleUpdateProfile = (e) =>{
   e.preventDefault();
   
+  //remove message box
   $("#domoMessage").animate({width: 'hide'}, 350);
   
+  //check for first and last name
+  //
+  //will later change to not require both
   if($("#firstName").val() == '' || $("#lastName").val() == ''){
     handleError("First and Last Name required");
     return false;
@@ -41,8 +48,7 @@ const handleUpdateProfile = (e) =>{
   return false;
 };
 
-
-
+//creates the account section
 const AccountSection = (props) =>{
   if(!props.account){
     return(
@@ -60,6 +66,7 @@ const AccountSection = (props) =>{
   );
 };
 
+//creates the personal section
 const PersonalSection = (props) =>{
   return(
     <div>
@@ -82,6 +89,7 @@ const PersonalSection = (props) =>{
   );
 };
 
+//creates the password form
 const PasswordForm = (props) =>{
   return(
     <form id="passwordForm" name="passwordForm"
@@ -100,9 +108,6 @@ const PasswordForm = (props) =>{
   );
 };
 
-
-
-
 //loads the user's profile information
 const loadProfileFromServer = () =>{
   sendAjax('GET', '/getProfile', null, (data) =>{
@@ -116,8 +121,6 @@ const loadProfileFromServer = () =>{
     
   });
 };
-
-
 
 //sets up the account page
 const setup = function(csrf){  
@@ -141,7 +144,6 @@ const setup = function(csrf){
 
   loadProfileFromServer();
 };
-
 
 
 //gets the csrf token

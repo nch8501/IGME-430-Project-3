@@ -2,10 +2,11 @@
 const handleChat = (e) =>{
   e.preventDefault();
   
+  //remove the message box
   $("#domoMessage").animate({width: 'hide'}, 350);
   
+  //check for title and description
   if($("#chatTitle").val() == '' || $("#chatDescription").val() == ''){
-    console.dir('ERROR');
     handleError("Title and Description required to create chat");
     return false;
   }
@@ -123,6 +124,7 @@ const setup = function(csrf){
   //load chats from the server
   loadChatsFromServer(csrf);
 };
+
 
 //gets the csrf token
 const getToken = () =>{

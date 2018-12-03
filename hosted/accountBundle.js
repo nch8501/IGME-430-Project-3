@@ -4,13 +4,16 @@
 var handleUpdatePassword = function handleUpdatePassword(e) {
   e.preventDefault();
 
+  //remove message box
   $("#domoMessage").animate({ width: 'hide' }, 350);
 
+  //check for both passwords
   if ($("#pass").val() == '' || $("#pass2").val() == '') {
     handleError("All fields are required");
     return false;
   }
 
+  //check that passwords match
   if ($("#pass").val() !== $("#pass2").val()) {
     handleError("Passwords do not match");
     return false;
@@ -24,6 +27,7 @@ var handleUpdatePassword = function handleUpdatePassword(e) {
   return false;
 };
 
+//creates the password form
 var PasswordForm = function PasswordForm(props) {
   return React.createElement(
     "form",
@@ -52,7 +56,7 @@ var PasswordForm = function PasswordForm(props) {
 
 //sets up the account page
 var setup = function setup(csrf) {
-  //chat creator
+  //password form
   ReactDOM.render(React.createElement(PasswordForm, { csrf: csrf }), document.querySelector("#content"));
 };
 
