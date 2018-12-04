@@ -106,19 +106,22 @@ nav:nth-child(1) {
   transition: background-color 0.4s ease;
   background-color: #a3a1af; }
 
+/*
 #user, #pass, #pass2 {
-  display: block;
-  margin-top: .5em;
-  margin-bottom: 1em;
-  text-align: center;
-  font-size: 1.1em;
-  width: 14em;
-  border-radius: 6px; }
+    display: block;
+    margin-top: .5em;
+    margin-bottom: 1em;
+    text-align: center;
+    font-size: 1.1em;
+    width: 14em;
+    border-radius: 6px;
+}
 
 #user:focus, #pass:focus, #pass2:focus {
-  outline: none;
-  box-shadow: 0px 0px 1px 1px #55acee; }
-
+    outline: none;
+    box-shadow: 0px 0px 1px 1px #55acee;
+}
+*/
 #domoMessage {
   display: none;
   top: 500px;
@@ -352,3 +355,33 @@ h3.emptyMessage {
   margin-bottom: 2em;
   background-color: aliceblue;
   border-radius: 7px; }
+
+.loginForm {
+  width: fit-content;
+  background-color: #dbccb7;
+  margin-top: 100px;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-left: auto;
+  padding-top: 50px;
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-bottom: 50px;
+  font-size: 1.2em;
+  border-radius: .75em; }
+
+#user, #pass, #pass2 {
+  display: block;
+  margin-top: .5em;
+  margin-bottom: 1em;
+  text-align: center;
+  font-size: 1.1em;
+  width: 14em;
+  border-radius: 6px; }
+  @media (max-width: 1000px) {
+    #user, #pass, #pass2 {
+      width: inherit; } }
+
+#user:focus, #pass:focus, #pass2:focus {
+  outline: none;
+  box-shadow: 0px 0px 1px 1px #55acee; }

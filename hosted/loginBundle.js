@@ -44,7 +44,7 @@ var LoginWindow = function LoginWindow(props) {
       onSubmit: handleLogin,
       action: "/login",
       method: "POST",
-      className: "mainForm"
+      className: "loginForm"
     },
     React.createElement(
       "label",

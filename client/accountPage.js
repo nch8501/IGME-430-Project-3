@@ -73,9 +73,12 @@ const AccountSection = (props) =>{
 
 //creates the personal section
 const PersonalSection = (props) =>{
+  console.dir(props.fName);
+  console.dir(props.lName);
   return(
     <div>
       <h3>Personal Section</h3>
+      <h3>{props.account}</h3>
       <form id="profileForm" name="profileForm"
             onSubmit={handleUpdateProfile}
             action="/updateProfile"
@@ -151,7 +154,13 @@ const loadProfileFromServer = () =>{
     );
     
     //re-render personal section
+    const firstName = data.accountInfo.profile.firstName;
+    const lastName = data.accountInfo.profile.lastName;
     
+    ReactDOM.render(
+      <PersonalSection fName={firstName} lName={lastName} />,
+      document.querySelector("#personalSection"),
+    );
   });
 };
 

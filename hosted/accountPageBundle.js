@@ -84,6 +84,8 @@ var AccountSection = function AccountSection(props) {
 
 //creates the personal section
 var PersonalSection = function PersonalSection(props) {
+  console.dir(props.fName);
+  console.dir(props.lName);
   return React.createElement(
     "div",
     null,
@@ -91,6 +93,11 @@ var PersonalSection = function PersonalSection(props) {
       "h3",
       null,
       "Personal Section"
+    ),
+    React.createElement(
+      "h3",
+      null,
+      props.account
     ),
     React.createElement(
       "form",
@@ -178,6 +185,10 @@ var loadProfileFromServer = function loadProfileFromServer() {
     ReactDOM.render(React.createElement(AccountSection, { account: data.accountInfo }), document.querySelector("#accountSection"));
 
     //re-render personal section
+    var firstName = data.accountInfo.profile.firstName;
+    var lastName = data.accountInfo.profile.lastName;
+
+    ReactDOM.render(React.createElement(PersonalSection, { fName: firstName, lName: lastName }), document.querySelector("#personalSection"));
   });
 };
 

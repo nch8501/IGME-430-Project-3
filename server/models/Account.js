@@ -141,6 +141,15 @@ AccountSchema.statics.findById = (id, callback) => {
   return AccountModel.findOne(query).select('username profile').exec(callback);
 };
 
+// retrieves the user's account information
+AccountSchema.statics.getAccountInfo = (id, callback) => {
+  // create search query
+  const query = {
+    _id: id,
+  };
+
+  return AccountModel.findOne(query).select('username profile').exec(callback);
+};
 
 // updates the profile information
 AccountSchema.statics.updateProfile = (id, profileData, callback) => {

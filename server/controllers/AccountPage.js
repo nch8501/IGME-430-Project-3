@@ -32,9 +32,8 @@ const updatePassword = (request, response) => {
      }));
 };
 
+//gets the user's profile
 const getProfile = (req, res) => {
-  console.dir('Getting Profile');
-
   return Account.AccountModel.findById(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
@@ -47,9 +46,12 @@ const getProfile = (req, res) => {
   });
 };
 
+//updates the user's profile
 const updateProfile = (req, res) => {
-  console.dir(res);
-  console.dir('Updating profile');
+  return Account.AccountModel.updateProfile(req.session.account._id, req.body, (err, docs) =>{
+    // return updated profile information
+    return res.json({ accountInfo: docs });
+  });
 };
 
 
