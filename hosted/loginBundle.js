@@ -70,7 +70,7 @@ var SignupWindow = function SignupWindow(props) {
       onSubmit: handleSignup,
       action: "/signup",
       method: "POST",
-      className: "mainForm"
+      className: "loginForm"
     },
     React.createElement(
       "label",
@@ -87,7 +87,7 @@ var SignupWindow = function SignupWindow(props) {
     React.createElement(
       "label",
       { htmlFor: "pass2" },
-      "Password: "
+      "Retype Password: "
     ),
     React.createElement("input", { id: "pass2", type: "password", name: "pass2", placeholder: "retype password" }),
     React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),

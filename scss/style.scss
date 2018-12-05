@@ -5,6 +5,7 @@ html, body {
     padding: 0;
     overflow-x: hidden;
     background-color: #506178;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 #logo {
@@ -103,18 +104,17 @@ nav:nth-child(1) {
 }
 
 .formSubmit {
-    transition: background-color 0.4s ease;
     display: block;
-    text-align: center;
     margin: 0 auto;
-    margin-top: 14px;
     font-size: 1.2em;
     background-color: #f69f69;
-    border-radius: 2px;
+    border-radius: .25em;
     border-color: #f69f69;
     padding: 3px 0px;
+    padding-left: .25em;
+    padding-right: .25em;
     color: white;
-    text-decoration: none;
+    margin-top: 1em;
 }
 
 .formSubmit:link, .formSubmit:visited, .formSubmit:hover, .formSubmit:active {
@@ -424,8 +424,9 @@ h3.emptyMessage {
 
 //Login Page
 .loginForm {
-  @media(min-width: 1500px){
-    
+  @media(min-width: 1001px){
+    padding-left: 5em;
+    padding-right: 5em;
   }
     width: fit-content;
     background-color: #dbccb7;
@@ -439,6 +440,11 @@ h3.emptyMessage {
     padding-bottom: 50px;
     font-size: 1.2em;
     border-radius: .75em;
+  
+  label{
+    font-size: 1.25em;
+    margin-bottom: 0em;
+  }
 }
 
 #user, #pass, #pass2 {

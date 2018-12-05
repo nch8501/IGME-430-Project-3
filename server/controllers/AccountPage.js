@@ -32,9 +32,9 @@ const updatePassword = (request, response) => {
      }));
 };
 
-//gets the user's profile
-const getProfile = (req, res) => {
-  return Account.AccountModel.findById(req.session.account._id, (err, docs) => {
+// gets the user's profile
+const getProfile = (req, res) =>
+  Account.AccountModel.findById(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
       return res.status(400).json(
@@ -44,15 +44,19 @@ const getProfile = (req, res) => {
     // return profile information
     return res.json({ accountInfo: docs });
   });
-};
 
-//updates the user's profile
-const updateProfile = (req, res) => {
-  return Account.AccountModel.updateProfile(req.session.account._id, req.body, (err, docs) =>{
+
+// updates the user's profile
+const updateProfile = (req, res) =>
+  Account.AccountModel.updateProfile(req.session.account._id, req.body, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json(
+        { error: 'An error occurred while updating your profile' });
+    }
     // return updated profile information
     return res.json({ accountInfo: docs });
   });
-};
 
 
 const getToken = (request, response) => {
