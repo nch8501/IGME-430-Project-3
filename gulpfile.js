@@ -89,6 +89,8 @@ gulp.task('lint', ()=>{
 
 
 gulp.task('watch', ()=>{
+  gulp.start('build');
+  
 	gulp.watch('./scss/style.scss',['sass']);
   
   //client bundles
