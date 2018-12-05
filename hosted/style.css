@@ -45,22 +45,6 @@ nav:nth-child(1) {
   transition: background-color 0.5s ease;
   background-color: #dbccb7; }
 
-.makeDomoSubmit {
-  transition: background-color 0.4s ease;
-  display: inline;
-  width: 90px;
-  background-color: #55acee;
-  border-radius: 2px;
-  color: white;
-  text-decoration: none; }
-
-.makeDomoSubmit:link, .makeDomoSubmit:visited, .makeDomoSubmit:hover, .makeDomoSubmit:active {
-  color: white; }
-
-.makeDomoSubmit:hover {
-  transition: background-color 0.4s ease;
-  background-color: #338acc; }
-
 .mainForm {
   width: 350px;
   background-color: #dbccb7;
@@ -106,22 +90,6 @@ nav:nth-child(1) {
   transition: background-color 0.4s ease;
   background-color: #a3a1af; }
 
-/*
-#user, #pass, #pass2 {
-    display: block;
-    margin-top: .5em;
-    margin-bottom: 1em;
-    text-align: center;
-    font-size: 1.1em;
-    width: 14em;
-    border-radius: 6px;
-}
-
-#user:focus, #pass:focus, #pass2:focus {
-    outline: none;
-    box-shadow: 0px 0px 1px 1px #55acee;
-}
-*/
 #domoMessage {
   display: none;
   top: 500px;
@@ -155,72 +123,6 @@ nav:nth-child(1) {
   font-size: 1.2em;
   font-weight: bold;
   color: red; }
-
-#domo {
-  z-index: 225;
-  margin-top: -20px;
-  margin-left: 135px;
-  height: 450px;
-  width: 300px;
-  -ms-transform: rotate(330deg);
-  -webkit-transform: rotate(330deg);
-  transform: rotate(330deg); }
-
-#domos {
-  width: 40%;
-  min-width: 400px;
-  border: 2px solid #55acee;
-  border-radius: 4px;
-  margin: 0 auto;
-  margin-top: 100px; }
-
-.domo {
-  width: 95%;
-  margin: 0 auto;
-  margin-top: 2px;
-  margin-bottom: 2px;
-  border-radius: 4px;
-  background-color: #dbccb7;
-  padding: 10px;
-  min-height: 60px;
-  overflow: hidden; }
-
-img.domoFace {
-  margin-left: 25px;
-  margin-right: 10px;
-  height: 50px;
-  width: 50px;
-  border-radius: 4px;
-  margin-top: 10px;
-  float: left; }
-
-h3.emptyDomo {
-  width: 400px;
-  font-size: 1.5em;
-  margin: 0 auto;
-  text-align: center;
-  margin-top: 18px; }
-
-h3.domoName {
-  float: left;
-  width: 200px;
-  font-weight: bold;
-  padding-left: 65px;
-  font-size: 1.5em; }
-
-h3.domoAge {
-  text-align: left;
-  width: 100px;
-  font-weight: bold;
-  padding-right: 40px;
-  font-size: 1.5em;
-  padding-left: 65px; }
-
-.domo:first-child {
-  margin-top: 10px; }
-
-.domo:last-child {
-  margin-bottom: 10px; }
 
 .messageForm {
   border: 2px solid #338acc;
@@ -315,7 +217,8 @@ h3.emptyMessage {
       padding-right: 5em; } }
   .loginForm label {
     font-size: 1.25em;
-    margin-bottom: 0em; }
+    margin-bottom: 0em;
+    font-weight: bold; }
 
 #user, #pass, #pass2 {
   display: block;
@@ -335,40 +238,46 @@ h3.emptyMessage {
 
 #makeChat {
   padding: 10px;
-  margin-top: 10px;
+  margin-top: 1em;
   height: fit-content; }
 
 #chats {
   float: left;
-  width: 60%;
   padding: 10px; }
+  @media (max-width: 767) {
+    #chats {
+      width: 100%; } }
+
+.chat {
+  margin: 0 auto;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border-radius: 4px;
+  background-color: #dbccb7;
+  padding: 10px;
+  min-height: 60px;
+  overflow: hidden; }
+  .chat .chatTitle {
+    font-weight: bold;
+    padding-left: 25px;
+    padding-right: .5em;
+    font-size: 1.5em;
+    margin-bottom: .5em;
+    text-decoration: underline; }
+  .chat .chatDescription {
+    text-align: left;
+    padding-right: .5em;
+    padding-left: 25px;
+    font-size: 1.25em; }
+  .chat .goToChatForm {
+    float: right; }
 
 .emptyChat {
-  width: 400px;
   font-size: 2em;
   margin: 0 auto;
   text-align: center;
-  margin-top: 18px;
+  margin-top: .5em;
   color: #dbccb7; }
-
-.chatTitle {
-  float: left;
-  width: 200px;
-  font-weight: bold;
-  padding-left: 65px;
-  font-size: 1.5em;
-  margin-bottom: .5em; }
-
-.chatDescription {
-  float: left;
-  text-align: left;
-  width: 75%;
-  font-weight: bold;
-  padding-right: 40px;
-  padding-left: 65px; }
-
-.goToChatForm {
-  float: right; }
 
 .chatForm {
   height: inherit;

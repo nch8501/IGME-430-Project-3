@@ -54,7 +54,7 @@ const ChatForm = (props) =>{
         <textarea id="chatDescription" rows="4" cols="50" name="description" placeholder="Description"></textarea>
         <input id="csrfToken" type="hidden" name="_csrf" value={props.csrf} />
         <div></div>
-        <input className="chatFormSubmit" type="submit" value="Create Chat" />  
+        <input className="formSubmit" type="submit" value="Create Chat" />  
       </form>
     </div>
   );
@@ -72,7 +72,7 @@ const ChatList = function(props){
   
   const chatNodes = props.chats.map(function(chat){
     return(
-      <div key={chat._id} className="domo">
+      <div key={chat._id} className="container chat">
         <h3 className="chatTitle">{chat.title}</h3>
         <h4 className="chatDescription">{chat.description}</h4>
         <form className="goToChatForm" name="goToChatForm"
@@ -83,7 +83,7 @@ const ChatList = function(props){
           >
           <input type="hidden" name="_csrf" value={props.csrf} />
           <input type="hidden" name="chatId" value={chat._id} />
-          <input type="submit" value="Enter Chat" />
+          <input type="submit" className="formSubmit" value="Enter Chat" />
         </form>
       </div>
     );

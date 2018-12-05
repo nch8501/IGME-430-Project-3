@@ -71,7 +71,7 @@ var ChatForm = function ChatForm(props) {
       React.createElement("textarea", { id: "chatDescription", rows: "4", cols: "50", name: "description", placeholder: "Description" }),
       React.createElement("input", { id: "csrfToken", type: "hidden", name: "_csrf", value: props.csrf }),
       React.createElement("div", null),
-      React.createElement("input", { className: "chatFormSubmit", type: "submit", value: "Create Chat" })
+      React.createElement("input", { className: "formSubmit", type: "submit", value: "Create Chat" })
     )
   );
 };
@@ -93,7 +93,7 @@ var ChatList = function ChatList(props) {
   var chatNodes = props.chats.map(function (chat) {
     return React.createElement(
       "div",
-      { key: chat._id, className: "domo" },
+      { key: chat._id, className: "container chat" },
       React.createElement(
         "h3",
         { className: "chatTitle" },
@@ -114,7 +114,7 @@ var ChatList = function ChatList(props) {
         },
         React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
         React.createElement("input", { type: "hidden", name: "chatId", value: chat._id }),
-        React.createElement("input", { type: "submit", value: "Enter Chat" })
+        React.createElement("input", { type: "submit", className: "formSubmit", value: "Enter Chat" })
       )
     );
   });
