@@ -44,7 +44,7 @@ var MessageList = function MessageList(props) {
       //change class later
       React.createElement(
         "div",
-        { key: message._id, className: "message" },
+        { key: message._id, className: "message row" },
         React.createElement(
           "h3",
           { className: "messageCreator" },

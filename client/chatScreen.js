@@ -36,7 +36,7 @@ const MessageList = function(props){
   const messageNodes = props.messages.map(function(message){
     return(
       //change class later
-      <div key={message._id} className="message">
+      <div key={message._id} className="message row">
         <h3 className="messageCreator">{message.username}</h3>
         <h4 className="messageContent">{message.message}</h4>
       </div>
