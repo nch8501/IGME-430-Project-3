@@ -17,12 +17,31 @@ var handleMessage = function handleMessage(e) {
       chatId: document.getElementById("chatId").innerHTML
     };
 
+    //clear message area
     document.querySelector('#messageArea').value = '';
 
-    loadMessagesFromServer(chatId);
+    //re-load messages
+    loadMessagesFromServer(chatId, scrollToBottom);
   });
 
   return false;
+};
+
+//scrolls to the bottom of the messages
+var scrollToBottom = function scrollToBottom() {
+  var messageSection = document.querySelector('#messageSection');
+
+  $(messageSection).animate({
+    scrollTop: messageSection.scrollHeight
+  }, 700);
+};
+
+//periodically loads messages from the server
+var periodicLoadMessages = function periodicLoadMessages(chatId) {
+  setTimeout(function () {
+    loadMessagesFromServer(chatId);
+    periodicLoadMessages(chatId);
+  }, 5000);
 };
 
 //creates the list of messages
@@ -94,9 +113,14 @@ var MessageForm = function MessageForm(props) {
 };
 
 //loads the list of messages
-var loadMessagesFromServer = function loadMessagesFromServer(chatId) {
+var loadMessagesFromServer = function loadMessagesFromServer(chatId, callback) {
   sendAjax('GET', '/getMessages', chatId, function (data) {
     ReactDOM.render(React.createElement(MessageList, { messages: data.chat }), document.querySelector("#messageSection"));
+
+    //check if there is a callback function to run
+    if (callback) {
+      callback();
+    }
   });
 };
 
@@ -108,12 +132,16 @@ var setup = function setup(csrf) {
   //message creator
   ReactDOM.render(React.createElement(MessageForm, { csrf: csrf }), document.querySelector("#message"));
 
-  //load messages
+  //get chatId
   var chatId = {
     chatId: document.getElementById("chatId").innerHTML
   };
 
+  //load messages
   loadMessagesFromServer(chatId);
+
+  //load messages every once in a while
+  periodicLoadMessages(chatId);
 };
 
 //gets the csrf token

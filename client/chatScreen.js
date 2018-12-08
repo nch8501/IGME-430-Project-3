@@ -15,12 +15,31 @@ const handleMessage = (e) =>{
       chatId: document.getElementById("chatId").innerHTML,
     };
     
+    //clear message area
     document.querySelector('#messageArea').value = '';
     
-    loadMessagesFromServer(chatId);
+    //re-load messages
+    loadMessagesFromServer(chatId, scrollToBottom);
   });
   
   return false; 
+};
+
+//scrolls to the bottom of the messages
+const scrollToBottom = ()=>{
+  const messageSection = document.querySelector('#messageSection');
+  
+  $(messageSection).animate({
+      scrollTop: messageSection.scrollHeight
+   }, 700);
+};
+
+//periodically loads messages from the server
+const periodicLoadMessages = (chatId) =>{
+  setTimeout(function(){
+    loadMessagesFromServer(chatId);
+    periodicLoadMessages(chatId);
+  }, 5000);
 };
 
 //creates the list of messages
@@ -74,12 +93,17 @@ const MessageForm = (props) =>{
 };
 
 //loads the list of messages
-const loadMessagesFromServer = (chatId) =>{
+const loadMessagesFromServer = (chatId, callback) =>{
   sendAjax('GET', '/getMessages', chatId, (data) =>{
     ReactDOM.render(
       <MessageList messages={data.chat} />,
       document.querySelector("#messageSection")
     );
+    
+    //check if there is a callback function to run
+    if(callback){
+      callback();
+    }
   });
 };
 
@@ -97,12 +121,16 @@ const setup = function(csrf){
     document.querySelector("#message"),
   );
   
-  //load messages
+  //get chatId
   const chatId ={
       chatId: document.getElementById("chatId").innerHTML,
     };
-
+  
+  //load messages
   loadMessagesFromServer(chatId);
+  
+  //load messages every once in a while
+  periodicLoadMessages(chatId);
 };
 
 //gets the csrf token
