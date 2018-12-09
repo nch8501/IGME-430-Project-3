@@ -124,54 +124,6 @@ nav:nth-child(1) {
   font-weight: bold;
   color: red; }
 
-.messageForm {
-  border: 2px solid #338acc;
-  height: inherit;
-  margin-top: 0px;
-  margin-left: 3em;
-  margin-right: 3em;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background-color: #55acee;
-  border-bottom-right-radius: 4px;
-  border-top-right-radius: 4px;
-  position: fixed;
-  bottom: 0;
-  width: 100%; }
-  .messageForm label {
-    display: inline-block;
-    margin-left: 10px;
-    font-size: 1.2em;
-    float: left;
-    color: white;
-    padding-right: 5px; }
-  .messageForm input[type=text] {
-    float: left;
-    width: 70%; }
-
-.messageSubmit {
-  margin-left: 1em; }
-
-.messageContent {
-  width: 90%;
-  margin-left: 3em;
-  margin-top: 0; }
-
-.messageCreator {
-  margin-top: .25em;
-  font-size: 1.5em;
-  width: fit-content;
-  padding-left: 1em;
-  padding-right: 1em;
-  background-color: antiquewhite;
-  border-radius: 1em;
-  margin-left: 1em;
-  margin-bottom: .25em; }
-
-.chatFormSubmit {
-  margin-left: 1em;
-  margin-top: 4em; }
-
 h3.emptyMessage {
   width: 400px;
   font-size: 1.5em;
@@ -286,6 +238,10 @@ h3.emptyMessage {
     margin-left: 1em;
     width: 90%; }
 
+.chatFormSubmit {
+  margin-left: 1em;
+  margin-top: 4em; }
+
 #messageSection {
   overflow-y: scroll;
   max-height: 74%; }
@@ -303,3 +259,47 @@ h3.emptyMessage {
   border-radius: 5px;
   padding-left: .25em;
   padding-right: .25em; }
+
+.messageContent {
+  width: 90%;
+  margin-left: 3em;
+  margin-top: 0; }
+
+.messageCreator {
+  margin-top: .25em;
+  font-size: 1.5em;
+  width: fit-content;
+  padding-left: 1em;
+  padding-right: 1em;
+  background-color: antiquewhite;
+  border-radius: 1em;
+  margin-left: 1em;
+  margin-bottom: .25em; }
+
+.messageForm {
+  border: 2px solid #338acc;
+  margin-top: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #55acee;
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+  bottom: 0; }
+  .messageForm label {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 1.2em;
+    float: left;
+    color: white;
+    padding-right: 5px; }
+  .messageForm input[type=text] {
+    float: left;
+    width: 70%; }
+    @media (max-width: 991px) {
+      .messageForm input[type=text] {
+        width: 60%; } }
+    @media (max-width: 767px) {
+      .messageForm input[type=text] {
+        width: 40%; } }
+  .messageForm .messageSubmit {
+    margin-left: 1em; }

@@ -65,8 +65,8 @@ var MessageList = function MessageList(props) {
         "div",
         { key: message._id, className: "message row" },
         React.createElement(
-          "h3",
-          { className: "messageCreator" },
+          "a",
+          { className: "messageCreator", href: '/users?username=' + message.username },
           message.username
         ),
         React.createElement(

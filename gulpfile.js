@@ -51,6 +51,16 @@ gulp.task('accountPage', ()=>{
     .pipe(gulp.dest('./hosted'));
 });
 
+//Users Bundle
+gulp.task('users', ()=>{
+  gulp.src(['./client/users.js', './client/helper.js'])
+    .pipe(babel({
+      presets: ['env', 'react']
+  }))
+    .pipe(concat('usersBundle.js'))
+    .pipe(gulp.dest('./hosted'));
+});
+
 //Login Bundle
 gulp.task('login', ()=>{
   gulp.src(['./client/login.js', './client/helper.js'])
@@ -74,6 +84,9 @@ gulp.task('js', ()=>{
   
   //Account Page Bundle
   gulp.start('accountPage');
+  
+  //Users Bundle
+  gulp.start('users');
   
   //Login Bundle
   gulp.start('login');
@@ -99,6 +112,7 @@ gulp.task('watch', ()=>{
   gulp.watch('./client/account.js', ['account']);
   gulp.watch('./client/accountPage.js', ['accountPage']);
   gulp.watch('./client/login.js', ['login']);
+  gulp.watch('./client/users.js', ['users']);
   gulp.watch('./client/helper.js',['js']);
   
   nodemon({ script: './server/app.js'

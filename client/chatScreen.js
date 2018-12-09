@@ -56,7 +56,7 @@ const MessageList = function(props){
     return(
       //change class later
       <div key={message._id} className="message row">
-        <h3 className="messageCreator">{message.username}</h3>
+        <a className="messageCreator" href={'/users?username=' + message.username}>{message.username}</a>
         <h4 className="messageContent">{message.message}</h4>
       </div>
     );
