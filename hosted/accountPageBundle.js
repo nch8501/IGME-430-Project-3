@@ -22,6 +22,7 @@ var handleUpdatePassword = function handleUpdatePassword(e) {
   //send the ajax request
   sendAjax('POST', $("#passwordForm").attr("action"), $("#passwordForm").serialize(), function () {
     handleError("Password successfully changed");
+
     //show password button again
     ReactDOM.render(React.createElement(PasswordFormButton, null), document.querySelector("#passwordSection"));
   });
@@ -36,91 +37,104 @@ var handleUpdateProfile = function handleUpdateProfile(e) {
   //remove message box
   $("#domoMessage").animate({ width: 'hide' }, 350);
 
-  //check for first and last name
-  //
-  //will later change to not require both
-  if ($("#firstName").val() == '' || $("#lastName").val() == '') {
-    handleError("First and Last Name required");
+  //check for something to update
+  if ($("#firstName").val() == '' && $("#lastName").val() == '') {
+    handleError("First or Last Name required");
     return false;
   }
 
   //send ajax request
   sendAjax('POST', $("#profileForm").attr("action"), $("#profileForm").serialize(), function () {
     handleError("Profile Updated");
+
+    //reload personal section
+    loadProfileFromServer();
+
+    //show personal section form button again
+    ReactDOM.render(React.createElement(PersonalSectionFormButton, null), document.querySelector("#personalSectionForm"));
   });
 
   return false;
 };
 
-//creates the account section
-var AccountSection = function AccountSection(props) {
-  if (!props.account) {
-    return React.createElement(
-      "div",
-      null,
-      React.createElement(
-        "h3",
-        null,
-        "Unloaded"
-      )
-    );
+//creates the personal section
+var PersonalSection = function PersonalSection(props) {
+  //check for names
+  if (!props.fName || props.fName == '') {
+    props.fName = 'N/A';
+  }
+  if (!props.lName || props.lName == '') {
+    props.lName = 'N/A';
   }
 
   return React.createElement(
     "div",
-    null,
+    { className: "personalSection" },
     React.createElement(
-      "h3",
-      null,
-      "Loaded"
-    ),
-    React.createElement(
-      "h4",
-      null,
-      props.account.username
-    )
-  );
-};
-
-//creates the personal section
-var PersonalSection = function PersonalSection(props) {
-  console.dir(props.fName);
-  console.dir(props.lName);
-  return React.createElement(
-    "div",
-    null,
-    React.createElement(
-      "h3",
+      "h2",
       null,
       "Personal Section"
     ),
     React.createElement(
       "h3",
       null,
-      props.account
+      "First Name: ",
+      props.fName
     ),
     React.createElement(
-      "form",
-      { id: "profileForm", name: "profileForm",
-        onSubmit: handleUpdateProfile,
-        action: "/updateProfile",
-        method: "POST",
-        className: "profileForm"
-      },
-      React.createElement(
-        "label",
-        { htmlFor: "firstName" },
-        "First Name: "
-      ),
-      React.createElement("input", { id: "firstName", type: "text", name: "firstName", placeholder: "first name" }),
-      React.createElement(
-        "label",
-        { htmlFor: "lastName" },
-        "Last Name: "
-      ),
-      React.createElement("input", { id: "lastName", type: "text", name: "lastName", placeholder: "last name" }),
-      React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
-      React.createElement("input", { className: "formSubmit", type: "submit", value: "Update Profile" })
+      "h3",
+      null,
+      "Last Name: ",
+      props.lName
+    )
+  );
+};
+
+//shows the personal section form
+var showPersonalSectionForm = function showPersonalSectionForm(e) {
+  //get csrf token
+  var csrf = document.querySelector("#csrfToken").getAttribute("value");
+
+  //show personal section form
+  ReactDOM.render(React.createElement(PersonalSectionForm, { csrf: csrf }), document.querySelector("#personalSectionForm"));
+};
+
+//creates the personal section form
+var PersonalSectionForm = function PersonalSectionForm(props) {
+  return React.createElement(
+    "form",
+    { id: "profileForm", name: "profileForm",
+      onSubmit: handleUpdateProfile,
+      action: "/updateProfile",
+      method: "POST",
+      className: "personalSectionForm"
+    },
+    React.createElement(
+      "label",
+      { htmlFor: "firstName" },
+      "First Name: "
+    ),
+    React.createElement("input", { id: "firstName", type: "text", name: "firstName", placeholder: "first name" }),
+    React.createElement(
+      "label",
+      { htmlFor: "lastName" },
+      "Last Name: "
+    ),
+    React.createElement("input", { id: "lastName", type: "text", name: "lastName", placeholder: "last name" }),
+    React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
+    React.createElement("input", { className: "formSubmit", type: "submit", value: "Update Profile" })
+  );
+};
+
+//creates the button to show the personal section form
+var PersonalSectionFormButton = function PersonalSectionFormButton(props) {
+  return React.createElement(
+    "div",
+    null,
+    React.createElement(
+      "button",
+      { onClick: showPersonalSectionForm, className: "formSubmit" },
+      "Change Personal Info"
     )
   );
 };
@@ -172,7 +186,7 @@ var PasswordFormButton = function PasswordFormButton(props) {
     null,
     React.createElement(
       "button",
-      { onClick: showPasswordForm },
+      { onClick: showPasswordForm, className: "formSubmit" },
       "Change Password"
     )
   );
@@ -181,24 +195,36 @@ var PasswordFormButton = function PasswordFormButton(props) {
 //loads the user's profile information
 var loadProfileFromServer = function loadProfileFromServer() {
   sendAjax('GET', '/getProfile', null, function (data) {
-    //re-render account section
-    ReactDOM.render(React.createElement(AccountSection, { account: data.accountInfo }), document.querySelector("#accountSection"));
+    //declare first and last names
+    var firstName = '';
+    var lastName = '';
+
+    //see if profile exists
+    var profile = data.accountInfo.profile;
+
+    if (profile) {
+      //see if first and last name exist
+      if (profile.firstName) {
+        firstName = data.accountInfo.profile.firstName;
+      }
+
+      if (profile.lastName) {
+        lastName = data.accountInfo.profile.lastName;
+      }
+    }
 
     //re-render personal section
-    var firstName = data.accountInfo.profile.firstName;
-    var lastName = data.accountInfo.profile.lastName;
-
     ReactDOM.render(React.createElement(PersonalSection, { fName: firstName, lName: lastName }), document.querySelector("#personalSection"));
   });
 };
 
 //sets up the account page
 var setup = function setup(csrf) {
-  //Account section
-  ReactDOM.render(React.createElement(AccountSection, null), document.querySelector("#accountSection"));
-
   //personal section
   ReactDOM.render(React.createElement(PersonalSection, { csrf: csrf }), document.querySelector("#personalSection"));
+
+  //personal section form section
+  ReactDOM.render(React.createElement(PersonalSectionFormButton, null), document.querySelector("#personalSectionForm"));
 
   //password change section
   ReactDOM.render(React.createElement(PasswordFormButton, null), document.querySelector("#passwordSection"));

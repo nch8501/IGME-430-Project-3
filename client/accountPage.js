@@ -20,6 +20,7 @@ const handleUpdatePassword = (e) =>{
   //send the ajax request
   sendAjax('POST', $("#passwordForm").attr("action"), $("#passwordForm").serialize(), function(){ 
     handleError("Password successfully changed");
+    
     //show password button again
     ReactDOM.render(
       <PasswordFormButton />,
@@ -37,65 +38,88 @@ const handleUpdateProfile = (e) =>{
   //remove message box
   $("#domoMessage").animate({width: 'hide'}, 350);
   
-  //check for first and last name
-  //
-  //will later change to not require both
-  if($("#firstName").val() == '' || $("#lastName").val() == ''){
-    handleError("First and Last Name required");
+  //check for something to update
+  if($("#firstName").val() == '' && $("#lastName").val() == ''){
+    handleError("First or Last Name required");
     return false;
   }
   
   //send ajax request
   sendAjax('POST', $("#profileForm").attr("action"), $("#profileForm").serialize(), function(){
     handleError("Profile Updated");  
+    
+    //reload personal section
+    loadProfileFromServer();
+    
+    //show personal section form button again
+    ReactDOM.render(
+      <PersonalSectionFormButton />,
+      document.querySelector("#personalSectionForm"),
+    );
   });
   
   return false;
 };
 
-//creates the account section
-const AccountSection = (props) =>{
-  if(!props.account){
-    return(
-      <div>
-        <h3>Unloaded</h3>
-      </div>
-    );
+//creates the personal section
+const PersonalSection = (props) =>{
+  //check for names
+  if(!props.fName || props.fName == ''){
+    props.fName = 'N/A';
+  }
+  if(!props.lName || props.lName == ''){
+    props.lName = 'N/A';
   }
   
   return(
-    <div>
-      <h3>Loaded</h3>
-      <h4>{props.account.username}</h4>
+    <div className="personalSection">
+      <h2>Personal Section</h2>
+      <h3>First Name: {props.fName}</h3>
+      <h3>Last Name: {props.lName}</h3>    
     </div>
   );
 };
 
-//creates the personal section
-const PersonalSection = (props) =>{
-  console.dir(props.fName);
-  console.dir(props.lName);
+//shows the personal section form
+const showPersonalSectionForm = (e) =>{
+  //get csrf token
+  const csrf = document.querySelector("#csrfToken").getAttribute("value");
+  
+  //show personal section form
+  ReactDOM.render(
+    <PersonalSectionForm csrf={csrf}/>,
+    document.querySelector("#personalSectionForm"),
+  );
+};
+
+//creates the personal section form
+const PersonalSectionForm = (props) =>{
   return(
-    <div>
-      <h3>Personal Section</h3>
-      <h3>{props.account}</h3>
-      <form id="profileForm" name="profileForm"
+    <form id="profileForm" name="profileForm"
             onSubmit={handleUpdateProfile}
             action="/updateProfile"
             method="POST"
-            className="profileForm"
+            className="personalSectionForm"
         >
         <label htmlFor="firstName">First Name: </label>
         <input id="firstName" type="text" name="firstName" placeholder="first name"></input>
         <label htmlFor="lastName">Last Name: </label>
         <input id="lastName" type="text" name="lastName" placeholder="last name"></input>
-      
         <input type="hidden" name="_csrf" value={props.csrf} />
         <input className="formSubmit" type="submit" value="Update Profile" />
-      </form>
+    </form>
+  );
+};
+
+//creates the button to show the personal section form
+const PersonalSectionFormButton = (props) =>{
+  return(
+    <div>
+      <button onClick={showPersonalSectionForm} className="formSubmit">Change Personal Info</button>
     </div>
   );
 };
+
 
 const Csrf = (props) =>{
   return(
@@ -139,24 +163,33 @@ const PasswordForm = (props) =>{
 const PasswordFormButton = (props) =>{
   return(
     <div>
-      <button onClick={showPasswordForm}>Change Password</button>
+      <button onClick={showPasswordForm} className="formSubmit">Change Password</button>
     </div>
   );
 };
 
 //loads the user's profile information
 const loadProfileFromServer = () =>{
-  sendAjax('GET', '/getProfile', null, (data) =>{
-    //re-render account section
-    ReactDOM.render(
-      <AccountSection account={data.accountInfo} />,
-      document.querySelector("#accountSection"),
-    );
+  sendAjax('GET', '/getProfile', null, (data) =>{    
+    //declare first and last names
+    let firstName = '';
+    let lastName = '';
     
+    //see if profile exists
+    const profile = data.accountInfo.profile;
+
+    if(profile){
+      //see if first and last name exist
+      if(profile.firstName){
+        firstName = data.accountInfo.profile.firstName;
+      }
+      
+      if(profile.lastName){
+        lastName = data.accountInfo.profile.lastName;
+      }
+    }
+
     //re-render personal section
-    const firstName = data.accountInfo.profile.firstName;
-    const lastName = data.accountInfo.profile.lastName;
-    
     ReactDOM.render(
       <PersonalSection fName={firstName} lName={lastName} />,
       document.querySelector("#personalSection"),
@@ -166,16 +199,16 @@ const loadProfileFromServer = () =>{
 
 //sets up the account page
 const setup = function(csrf){  
-  //Account section
-  ReactDOM.render(
-    <AccountSection  />,
-    document.querySelector("#accountSection"),
-  );
-  
   //personal section
   ReactDOM.render(
     <PersonalSection csrf={csrf} />,
     document.querySelector("#personalSection"),
+  );
+  
+  //personal section form section
+  ReactDOM.render(
+    <PersonalSectionFormButton />,
+    document.querySelector("#personalSectionForm"),
   );
   
   //password change section

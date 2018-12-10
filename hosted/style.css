@@ -58,17 +58,15 @@ nav:nth-child(1) {
   padding-bottom: 50px;
   font-size: 1.2em;
   border-radius: .75em; }
-
-.mainForm h3 {
-  text-align: center; }
-
-.mainForm label {
-  display: inline-block;
-  margin-right: 10px;
-  text-align: right;
-  font-size: 1.2em;
-  font-family: sans-serif;
-  font-weight: bold; }
+  .mainForm h3 {
+    text-align: center; }
+  .mainForm label {
+    display: inline-block;
+    margin-right: 10px;
+    text-align: right;
+    font-size: 1.2em;
+    font-family: sans-serif;
+    font-weight: bold; }
 
 .formSubmit {
   display: block;
@@ -162,11 +160,8 @@ h3.emptyMessage {
   margin-bottom: 1em;
   text-align: center;
   font-size: 1.1em;
-  width: 14em;
+  width: inherit;
   border-radius: 6px; }
-  @media (max-width: 1000px) {
-    #user, #pass, #pass2 {
-      width: inherit; } }
 
 #user:focus, #pass:focus, #pass2:focus {
   outline: none;
@@ -303,3 +298,49 @@ h3.emptyMessage {
         width: 40%; } }
   .messageForm .messageSubmit {
     margin-left: 1em; }
+
+.personalSection {
+  width: 350px;
+  background-color: #dbccb7;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-left: auto;
+  padding-top: .5em;
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-bottom: 50px;
+  font-size: 1.2em;
+  border-radius: .75em; }
+  .personalSection h3 {
+    padding-left: 1em; }
+
+.personalSectionForm {
+  width: 350px;
+  background-color: #dbccb7;
+  margin-top: 100px;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-left: auto;
+  padding-top: 50px;
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-bottom: 50px;
+  font-size: 1.2em;
+  border-radius: .75em; }
+  .personalSectionForm h3 {
+    text-align: center; }
+  .personalSectionForm label {
+    display: inline-block;
+    margin-right: 10px;
+    text-align: right;
+    font-size: 1.2em;
+    font-family: sans-serif;
+    font-weight: bold; }
+  .personalSectionForm input[type=text] {
+    display: block;
+    margin-top: .5em;
+    margin-bottom: 1em;
+    text-align: center;
+    font-size: 1.1em;
+    width: inherit;
+    border-radius: 6px; }
