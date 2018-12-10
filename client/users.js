@@ -46,17 +46,19 @@ const loadUserFromServer = () =>{
       let username = '';
       let firstName = '';
       let lastName = '';
-      
+            
       //check for profile info
       if(data.profileInfo.username){
         username = data.profileInfo.username;
         
-        if(data.profileInfo.profile.firstName){
-          firstName = data.profileInfo.profile.firstName;
-        }
-        
-        if(data.profileInfo.profile.lastName){
-          lastName = data.profileInfo.profile.lastName;
+        if(data.profileInfo.profile){
+          if(data.profileInfo.profile.firstName){
+            firstName = data.profileInfo.profile.firstName;
+          }
+
+          if(data.profileInfo.profile.lastName){
+            lastName = data.profileInfo.profile.lastName;
+          }
         }
       }
 

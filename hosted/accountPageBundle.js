@@ -37,12 +37,6 @@ var handleUpdateProfile = function handleUpdateProfile(e) {
   //remove message box
   $("#domoMessage").animate({ width: 'hide' }, 350);
 
-  //check for something to update
-  if ($("#firstName").val() == '' && $("#lastName").val() == '') {
-    handleError("First or Last Name required");
-    return false;
-  }
-
   //send ajax request
   sendAjax('POST', $("#profileForm").attr("action"), $("#profileForm").serialize(), function () {
     handleError("Profile Updated");
