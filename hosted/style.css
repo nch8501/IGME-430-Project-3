@@ -46,7 +46,7 @@ nav:nth-child(1) {
   background-color: #dbccb7; }
 
 .mainForm {
-  width: 350px;
+  width: fit-content;
   background-color: #dbccb7;
   margin-top: 100px;
   margin-right: auto;
@@ -58,6 +58,10 @@ nav:nth-child(1) {
   padding-bottom: 50px;
   font-size: 1.2em;
   border-radius: .75em; }
+  @media (min-width: 1001px) {
+    .mainForm {
+      padding-left: 5em;
+      padding-right: 5em; } }
   .mainForm h3 {
     text-align: center; }
   .mainForm label {
@@ -300,22 +304,27 @@ h3.emptyMessage {
     margin-left: 1em; }
 
 .personalSection {
-  width: 350px;
+  width: fit-content;
   background-color: #dbccb7;
   margin-right: auto;
   margin-bottom: 0px;
   margin-left: auto;
-  padding-top: .5em;
+  margin-top: 1em;
+  padding-top: 1em;
   padding-right: 50px;
   padding-left: 50px;
   padding-bottom: 50px;
   font-size: 1.2em;
   border-radius: .75em; }
+  @media (min-width: 1001px) {
+    .personalSection {
+      padding-left: 5em;
+      padding-right: 5em; } }
   .personalSection h3 {
     padding-left: 1em; }
 
 .personalSectionForm {
-  width: 350px;
+  width: fit-content;
   background-color: #dbccb7;
   margin-top: 100px;
   margin-right: auto;
@@ -327,6 +336,10 @@ h3.emptyMessage {
   padding-bottom: 50px;
   font-size: 1.2em;
   border-radius: .75em; }
+  @media (min-width: 1001px) {
+    .personalSectionForm {
+      padding-left: 5em;
+      padding-right: 5em; } }
   .personalSectionForm h3 {
     text-align: center; }
   .personalSectionForm label {
@@ -344,3 +357,23 @@ h3.emptyMessage {
     font-size: 1.1em;
     width: inherit;
     border-radius: 6px; }
+
+.userSection {
+  width: fit-content;
+  background-color: #dbccb7;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-left: auto;
+  margin-top: 1em;
+  padding-top: 1em;
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-bottom: 50px;
+  font-size: 1.2em;
+  border-radius: .75em; }
+  @media (min-width: 1001px) {
+    .userSection {
+      padding-left: 3em;
+      padding-right: 3em; } }
+  .userSection h3 {
+    padding-left: 1em; }

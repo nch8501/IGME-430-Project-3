@@ -53,7 +53,11 @@ nav:nth-child(1) {
 }
 
 .mainForm {
-    width: 350px;
+  @media(min-width: 1001px){
+    padding-left: 5em;
+    padding-right: 5em;
+  }
+    width: fit-content;
     background-color: #dbccb7;
     margin-top: 100px;
     margin-right: auto;
@@ -374,12 +378,17 @@ h3.emptyMessage {
 
 //Account Page
 .personalSection{
-    width: 350px;
+  @media(min-width: 1001px){
+    padding-left: 5em;
+    padding-right: 5em;
+  }
+    width: fit-content;
     background-color: #dbccb7;
     margin-right: auto;
     margin-bottom: 0px;
     margin-left: auto;
-    padding-top: .5em;
+    margin-top: 1em;
+    padding-top: 1em;
     padding-right: 50px;
     padding-left: 50px;
     padding-bottom: 50px;
@@ -391,10 +400,12 @@ h3.emptyMessage {
   }
 }
 
-
-
 .personalSectionForm {
-    width: 350px;
+  @media(min-width: 1001px){
+    padding-left: 5em;
+    padding-right: 5em;
+  }
+    width: fit-content;
     background-color: #dbccb7;
     margin-top: 100px;
     margin-right: auto;
@@ -428,5 +439,29 @@ h3.emptyMessage {
     font-size: 1.1em;
     width: inherit;
     border-radius: 6px;
+  }
+}
+
+//Users Page
+.userSection{
+   @media(min-width: 1001px){
+    padding-left: 3em;
+    padding-right: 3em;
+  }
+    width: fit-content;
+    background-color: #dbccb7;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+    margin-top: 1em;
+    padding-top: 1em;
+    padding-right: 50px;
+    padding-left: 50px;
+    padding-bottom: 50px;
+    font-size: 1.2em;
+    border-radius: .75em;
+  
+  h3{
+    padding-left: 1em;
   }
 }
